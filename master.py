@@ -33,13 +33,12 @@ def on_update(delta_time):
     snake_move()
 
 
-
 def on_draw():
     arcade.start_render()
     # Draw the grid
     template()
-    snake()
-    apple()
+    #snake()
+    #apple()
     print (player_x_column, player_y_row, SCREEN_WIDTH, SCREEN_HEIGHT)
 
     
@@ -56,7 +55,7 @@ def template():
             y = (MARGIN + HEIGHT) * row + MARGIN + HEIGHT // 2
 
             # Draw the box
-            arcade.create_rectangle_filled(x, y, WIDTH, HEIGHT, color)
+            arcade.draw_rectangle_filled(x, y, WIDTH, HEIGHT, color)
 
 def snake_move():
     global player_x, player_y, player_x_column, player_y_row
@@ -83,13 +82,12 @@ def snake():
 def apple():
     apple_x = random.randint(0, COLUMN_COUNT)
     apple_y = random.randint(0, ROW_COUNT)     
-    print(apple_x, apple_y)
+    # arcade.draw_rectangle_filled(apple_x, apple_y, WIDTH, HEIGHT, arcade.color.RED)
 
 
 def on_key_press(key, modifiers):
     global up, down, left, right
 
-        
     if key == arcade.key.W:
         up = True
         down = False
