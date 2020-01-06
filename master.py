@@ -39,6 +39,7 @@ def on_draw():
     # Draw the grid
     template()
     snake()
+    apple()
     print (player_x_column, player_y_row, SCREEN_WIDTH, SCREEN_HEIGHT)
 
     
@@ -78,6 +79,11 @@ def snake_move():
 
 def snake():
     arcade.draw_rectangle_filled(player_x, player_y, WIDTH, HEIGHT, arcade.color.BLUE)
+
+def apple():
+    apple_x = random.randint(0, COLUMN_COUNT)
+    apple_y = random.randint(0, ROW_COUNT)     
+    print(apple_x, apple_y)
 
 
 def on_key_press(key, modifiers):
