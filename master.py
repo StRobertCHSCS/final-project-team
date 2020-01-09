@@ -2,8 +2,8 @@ import arcade
 import random
 
 # Set how many rows and columns we will have
-ROW_COUNT = 29
-COLUMN_COUNT = 51
+ROW_COUNT = 25
+COLUMN_COUNT = 25
 
 # This sets the WIDTH and HEIGHT of each grid location
 WIDTH = 20
@@ -25,7 +25,7 @@ right = False
 player_x_column = 5
 player_y_row = 5
 
-
+texture = arcade.load_texture("white_square.jpg")
 
 grid = []
 
@@ -36,8 +36,9 @@ def on_update(delta_time):
 
 def on_draw():
     arcade.start_render()
-    # Draw the grid
     template()
+
+    # Draw the grid
     snake()
     apple()
     print (player_x_column, player_y_row, SCREEN_WIDTH, SCREEN_HEIGHT)
@@ -56,7 +57,7 @@ def template():
             y = (MARGIN + HEIGHT) * row + MARGIN + HEIGHT // 2
 
             # Draw the box
-            arcade.create_rectangle_filled(x, y, WIDTH, HEIGHT, color)
+            arcade.draw_texture_rectangle(x, y, texture.width, texture.height, texture)
 
 def snake_move():
     global player_x, player_y, player_x_column, player_y_row
@@ -131,6 +132,7 @@ def on_mouse_press(x, y, button, modifiers):
 def setup():
     global grid
 
+
     arcade.open_window(SCREEN_WIDTH, SCREEN_HEIGHT, "Array Backed Grids")
     arcade.set_background_color(arcade.color.BLACK)
     arcade.schedule(on_update, 1/60)
@@ -141,6 +143,8 @@ def setup():
     window.on_key_press = on_key_press
     window.on_key_release = on_key_release
     window.on_mouse_press = on_mouse_press
+
+
 
     # array is simply a list of lists.
     for row in range(ROW_COUNT):
