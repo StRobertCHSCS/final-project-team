@@ -23,6 +23,7 @@ MARGIN = 5
 SCREEN_WIDTH = (WIDTH + MARGIN) * COLUMN_COUNT + MARGIN
 SCREEN_HEIGHT = (HEIGHT + MARGIN) * ROW_COUNT + MARGIN
 
+
 up = False
 down = False
 left = False
@@ -31,13 +32,17 @@ right = False
 player_x_column = 5
 player_y_row = 5
 
+apple_x = 15
+apple_y = 15
+apple_x_coordinate = (MARGIN + WIDTH) * apple_x + MARGIN + WIDTH // 2  
+apple_y_coordinate = (MARGIN + HEIGHT) * apple_y + MARGIN + HEIGHT // 2
+apple_display = True
+
 grid_texture = arcade.load_texture("29x51_grid.jpg")
 
 
 
 
-player_loaction_x = []
-player_loaction_y= []
 
 def on_update(delta_time):
     snake_move()
@@ -73,20 +78,18 @@ def snake_move():
         elif left:
             player_x_column -= 1
 
-        for i in range (1):
-            player_loaction_x = player_loaction_x(player_x_column)
-            player_loaction_y.append(player_y_row)
+        # for i in range (1):
+        #     player_loaction_x = player_loaction_x(player_x_column)
+        #     player_loaction_y.append(player_y_row)
     else:
         restart()
 
-    print(player_loaction_x, player_loaction_y)
 
     # Player coordinates
     player_x = (MARGIN + WIDTH) * player_x_column + MARGIN + WIDTH // 2
     player_y = (MARGIN + HEIGHT) * player_y_row + MARGIN + HEIGHT // 2
 
 
-    # array is simply a list of lists.
  
 
 def restart():
@@ -104,11 +107,20 @@ def snake():
     arcade.draw_rectangle_filled(player_x, player_y, WIDTH, HEIGHT, arcade.color.BLUE)
 
 
-
 def apple():
-    global apple_x, apple_y
-    pass
+    global apple_x, apple_y, apple_x_coordinate, apple_y_coordinate
+    
+    if (player_x_column == apple_x) and (player_y_row == apple_y):
+        apple_display = False
+    else:
+        apple_display = True
 
+    if apple_display is True:
+        arcade.draw_rectangle_filled(apple_x_coordinate, apple_y_coordinate, WIDTH, HEIGHT, arcade.color.RED)
+    else:
+        apple_x = random.randint(0, COLUMN_COUNT)
+        apple_y = random.randint(0, ROW_COUNT)
+        apple_display == True      
 
 def on_key_press(key, modifiers):
     global up, down, left, right
