@@ -1,9 +1,3 @@
-'''
--fix player_location lists, so that the list only has the location of the current snake location, not infinite list
-- fix apple so disappers when you go over it
-'''
-
-
 import arcade
 import random
 
@@ -63,23 +57,24 @@ def snake_move():
     if (0 < player_x_column < COLUMN_COUNT) and (0 < player_y_row < ROW_COUNT):
         if up:
             player_y_row += 1
-
+            player_loaction_x.append(player_x_column)
+            player_loaction_y.append(player_y_row)
         elif down:
             player_y_row -= 1
-
+            player_loaction_x.append(player_x_column)
+            player_loaction_y.append(player_y_row)
         elif right:
             player_x_column += 1
-
+            player_loaction_x.append(player_x_column)
+            player_loaction_y.append(player_y_row)
         elif left:
             player_x_column -= 1
-
-        for i in range (1):
-            player_loaction_x = player_loaction_x(player_x_column)
+            player_loaction_x.append(player_x_column)
             player_loaction_y.append(player_y_row)
     else:
         restart()
 
-    print(player_loaction_x, player_loaction_y)
+    print(player_loaction_x)
 
     # Player coordinates
     player_x = (MARGIN + WIDTH) * player_x_column + MARGIN + WIDTH // 2

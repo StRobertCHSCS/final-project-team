@@ -1,9 +1,3 @@
-'''
--fix player_location lists, so that the list only has the location of the current snake location, not infinite list
-- fix apple so disappers when you go over it
-'''
-
-
 import arcade
 import random
 
@@ -36,8 +30,7 @@ texture = arcade.load_texture("griddd.jpg")
 
 
 
-player_loaction_x = []
-player_loaction_y= []
+player_loaction = []
 
 def on_update(delta_time):
     snake_move()
@@ -63,23 +56,16 @@ def snake_move():
     if (0 < player_x_column < COLUMN_COUNT) and (0 < player_y_row < ROW_COUNT):
         if up:
             player_y_row += 1
-
         elif down:
             player_y_row -= 1
-
         elif right:
             player_x_column += 1
-
         elif left:
             player_x_column -= 1
-
-        for i in range (1):
-            player_loaction_x = player_loaction_x(player_x_column)
-            player_loaction_y.append(player_y_row)
     else:
         restart()
 
-    print(player_loaction_x, player_loaction_y)
+        
 
     # Player coordinates
     player_x = (MARGIN + WIDTH) * player_x_column + MARGIN + WIDTH // 2
@@ -87,7 +73,8 @@ def snake_move():
 
 
     # array is simply a list of lists.
- 
+    player_loaction.append(player_x_column, player_y_row)
+    print (player_loaction)
 
 def restart():
     global player_x_column, player_y_row
@@ -107,7 +94,7 @@ def snake():
 
 def apple():
     global apple_x, apple_y
-    pass
+    a
 
 
 def on_key_press(key, modifiers):

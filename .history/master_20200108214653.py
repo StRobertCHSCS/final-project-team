@@ -1,9 +1,3 @@
-'''
--fix player_location lists, so that the list only has the location of the current snake location, not infinite list
-- fix apple so disappers when you go over it
-'''
-
-
 import arcade
 import random
 
@@ -34,10 +28,7 @@ player_y_row = 5
 texture = arcade.load_texture("griddd.jpg")
 
 
-
-
-player_loaction_x = []
-player_loaction_y= []
+grid = []
 
 def on_update(delta_time):
     snake_move()
@@ -49,6 +40,8 @@ def on_draw():
     snake()
     apple()
 
+    print ((player_x_column, player_y_row))
+
     
 
 def grid_background():
@@ -57,57 +50,44 @@ def grid_background():
     
 
 def snake_move():
-    global player_x, player_y, player_x_column, player_y_row
+    global player_x, player_y, player_x_column, player_y_row, up, down, left, right
 
 
     if (0 < player_x_column < COLUMN_COUNT) and (0 < player_y_row < ROW_COUNT):
         if up:
             player_y_row += 1
-
         elif down:
             player_y_row -= 1
-
         elif right:
             player_x_column += 1
-
         elif left:
             player_x_column -= 1
-
-        for i in range (1):
-            player_loaction_x = player_loaction_x(player_x_column)
-            player_loaction_y.append(player_y_row)
     else:
-        restart()
-
-    print(player_loaction_x, player_loaction_y)
+        player_x_column = 5
+        player_y_row = 5
+        up = False
+        down = False
+        left = False
+        right = False
 
     # Player coordinates
     player_x = (MARGIN + WIDTH) * player_x_column + MARGIN + WIDTH // 2
     player_y = (MARGIN + HEIGHT) * player_y_row + MARGIN + HEIGHT // 2
 
-
-    # array is simply a list of lists.
- 
-
-def restart():
-    global player_x_column, player_y_row
-    global up, down, left, right
-    player_x_column = 5
-    player_y_row = 5
-    up = False
-    down = False
-    left = False
-    right = False
-    print ("You died")
+    
 
 def snake():
     arcade.draw_rectangle_filled(player_x, player_y, WIDTH, HEIGHT, arcade.color.BLUE)
 
 
-
 def apple():
-    global apple_x, apple_y
-    pass
+    apple_x = random.randint(0, COLUMN_COUNT)
+    apple_y = random.randint(0, ROW_COUNT)     
+    arcade.draw_rectangle_filled(apple_x, apple_y, WIDTH, HEIGHT, arcade.color.RED)
+
+def wall():
+    pass 
+
 
 
 def on_key_press(key, modifiers):
@@ -172,6 +152,13 @@ def setup():
 
 
 
+    # array is simply a list of lists.
+    for row in range(ROW_COUNT):
+        # Add an empty array that will hold each cell
+        # in this row
+        grid.append([])
+        for column in range(COLUMN_COUNT):
+            grid[row].append(0)  # Append a cell
 
     arcade.run()
 
