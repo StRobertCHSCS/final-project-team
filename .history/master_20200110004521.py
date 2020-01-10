@@ -1,7 +1,6 @@
 '''
--make snake longer when eaten
 -fix player_location lists, so that the list only has the location of the current snake location, not infinite list
-- fix apple so disappers when you go over it (done)
+- fix apple so disappers when you go over it
 '''
 
 
@@ -33,12 +32,11 @@ right = False
 player_x_column = 5
 player_y_row = 5
 
-apple_x = random.randint(0, COLUMN_COUNT)
-apple_y = random.randint(0, ROW_COUNT)
-
+apple_x = 15
+apple_y = 15
+apple_x_coordinate = (MARGIN + WIDTH) * apple_x + MARGIN + WIDTH // 2  
+apple_y_coordinate = (MARGIN + HEIGHT) * apple_y + MARGIN + HEIGHT // 2
 apple_display = True
-player_eat = False
-snake_len = []
 
 grid_texture = arcade.load_texture("29x51_grid.jpg")
 
@@ -105,40 +103,25 @@ def restart():
     right = False
     print ("You died")
 
-
 def snake():
-    global player_eat, snake_len
-
-    if player_eat:
-        snake_len += 1
-        player_eat = False
-
-    for i in snake_len:
-        arcade.draw_rectangle_filled(player_x + , player_y, WIDTH, HEIGHT, arcade.color.BLUE)
-
-
-
+    arcade.draw_rectangle_filled(player_x, player_y, WIDTH, HEIGHT, arcade.color.BLUE)
 
 
 def apple():
-    global apple_x, apple_y, apple_x_coordinate, apple_y_coordinate, player_eat
+    global apple_x, apple_y, apple_x_coordinate, apple_y_coordinate
     
-    apple_x_coordinate = (MARGIN + WIDTH) * apple_x + MARGIN + WIDTH // 2  
-    apple_y_coordinate = (MARGIN + HEIGHT) * apple_y + MARGIN + HEIGHT // 2
+    arcade.draw_rectangle_filled(apple_x_coordinate, apple_y_coordinate, WIDTH, HEIGHT, arcade.color.RED)
 
-    if (player_x_column == apple_x) and (player_y_row == apple_y):
-        apple_display = False
-        player_eat = True
-    else:
+    while (player_x_column != apple_x) and (player_y_row != apple_y):
         apple_display = True
+    else:
+        apple_display = False
 
     if apple_display is True:
         arcade.draw_rectangle_filled(apple_x_coordinate, apple_y_coordinate, WIDTH, HEIGHT, arcade.color.RED)
-    elif apple_display is False:
+    else:
         apple_x = random.randint(0, COLUMN_COUNT)
         apple_y = random.randint(0, ROW_COUNT)
-        apple_x_coordinate = (MARGIN + WIDTH) * apple_x + MARGIN + WIDTH // 2  
-        apple_y_coordinate = (MARGIN + HEIGHT) * apple_y + MARGIN + HEIGHT // 2
         apple_display == True      
 
 def on_key_press(key, modifiers):
