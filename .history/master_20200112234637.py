@@ -32,18 +32,19 @@ right = False
 
 player_x_column = 5
 player_y_row = 5
-body = [0]
-happy = [5, 5]
 
+new_snake = [0]
 
 
 apple_x = random.randint(0, COLUMN_COUNT)
 apple_y = random.randint(0, ROW_COUNT)
 
 apple_display = True
+add_snake = False
 
 grid_texture = arcade.load_texture("29x51_grid.jpg")
 
+body = []
 
 
 
@@ -112,19 +113,13 @@ def restart():
 
 
 def snake():
-    global player_x_column, player_y_row, apple_x, apple_y, happy, snake_len
+    global player_x_column, player_y_row, add_snake, snake_len
 
 
     arcade.draw_rectangle_filled(player_x , player_y, WIDTH, HEIGHT, arcade.color.BLUE)
 
     snake_len = []
-
     snake_len.append([player_x_column, player_y_row])
-    
-    if (player_x_column == apple_x) and (player_y_row == apple_y):
-        for i in range (len(snake_len)):
-            snake_len.append(happy)
-
 
     for i in range (len(snake_len)):
         arcade.draw_rectangle_filled(
@@ -144,12 +139,13 @@ def apple():
 
     if (player_x_column == apple_x) and (player_y_row == apple_y):
         apple_display = False
-        for i in range (len(body)):
-            body[i] += 1 
+        for i in range (len(new_snake)):
+            new_snake[i] += 1 
     else:
         apple_display = True
+        add_snake = False
 
-    print (snake_len)
+    print (new_snake)
 
     if apple_display is True:
         arcade.draw_rectangle_filled(apple_x_coordinate, apple_y_coordinate, WIDTH, HEIGHT, arcade.color.RED)

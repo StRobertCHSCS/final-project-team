@@ -32,25 +32,22 @@ right = False
 
 player_x_column = 5
 player_y_row = 5
-body = [0]
-happy = [5, 5]
-
-
 
 apple_x = random.randint(0, COLUMN_COUNT)
 apple_y = random.randint(0, ROW_COUNT)
 
 apple_display = True
+player_eat = False
+snake_len = []
 
 grid_texture = arcade.load_texture("29x51_grid.jpg")
 
 
 
 
+
 def on_update(delta_time):
     snake_move()
-
-    
 
 
 def on_draw():
@@ -70,7 +67,7 @@ def snake_move():
     global player_x, player_y, player_x_column, player_y_row
 
 
-    if (0 <= player_x_column < COLUMN_COUNT) and (0 <= player_y_row < ROW_COUNT):
+    if (0 < player_x_column < COLUMN_COUNT) and (0 < player_y_row < ROW_COUNT):
         if up:
             player_y_row += 1
 
@@ -94,7 +91,6 @@ def snake_move():
     player_x = (MARGIN + WIDTH) * player_x_column + MARGIN + WIDTH // 2
     player_y = (MARGIN + HEIGHT) * player_y_row + MARGIN + HEIGHT // 2
 
- 
 
  
 
@@ -103,7 +99,6 @@ def restart():
     global up, down, left, right
     player_x_column = 5
     player_y_row = 5
-    snake_len = []
     up = False
     down = False
     left = False
@@ -112,44 +107,29 @@ def restart():
 
 
 def snake():
-    global player_x_column, player_y_row, apple_x, apple_y, happy, snake_len
+    global player_eat, snake_len
 
+    if player_eat:
+        snake_len += 1
+        player_eat = False
 
     arcade.draw_rectangle_filled(player_x , player_y, WIDTH, HEIGHT, arcade.color.BLUE)
 
-    snake_len = []
-
-    snake_len.append([player_x_column, player_y_row])
-    
-    if (player_x_column == apple_x) and (player_y_row == apple_y):
-        for i in range (len(snake_len)):
-            snake_len.append(happy)
-
-
-    for i in range (len(snake_len)):
-        arcade.draw_rectangle_filled(
-            (MARGIN + WIDTH) * snake_len[i][0] + MARGIN + WIDTH // 2, 
-            (MARGIN + HEIGHT) * snake_len[i][1] + MARGIN + HEIGHT // 2 , 
-            WIDTH, HEIGHT, arcade.color.BLUE)
 
 
 
 
 def apple():
-    global apple_x, apple_y, apple_x_coordinate, apple_y_coordinate, body, snake_len
-    global SPEED
-
+    global apple_x, apple_y, apple_x_coordinate, apple_y_coordinate, player_eat
+    
     apple_x_coordinate = (MARGIN + WIDTH) * apple_x + MARGIN + WIDTH // 2  
     apple_y_coordinate = (MARGIN + HEIGHT) * apple_y + MARGIN + HEIGHT // 2
 
     if (player_x_column == apple_x) and (player_y_row == apple_y):
         apple_display = False
-        for i in range (len(body)):
-            body[i] += 1 
+        player_eat = True
     else:
         apple_display = True
-
-    print (snake_len)
 
     if apple_display is True:
         arcade.draw_rectangle_filled(apple_x_coordinate, apple_y_coordinate, WIDTH, HEIGHT, arcade.color.RED)
@@ -208,12 +188,6 @@ def on_mouse_press(x, y, button, modifiers):
 def setup():
     global grid
 
-
-    # global player_x_column, apple_x, player_y_row, apple_y, SPEED
-    # SPEED = 10
-
-    # if (player_x_column == apple_x) and (player_y_row == apple_y):
-    #     SPEED += 5
 
     arcade.open_window(SCREEN_WIDTH, SCREEN_HEIGHT, "snake")
     arcade.set_background_color(arcade.color.BLACK)

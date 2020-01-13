@@ -122,8 +122,7 @@ def snake():
     snake_len.append([player_x_column, player_y_row])
     
     if (player_x_column == apple_x) and (player_y_row == apple_y):
-        for i in range (len(snake_len)):
-            snake_len.append(happy)
+        snake_len.append(happy)
 
 
     for i in range (len(snake_len)):

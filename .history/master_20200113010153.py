@@ -59,7 +59,9 @@ def on_draw():
     snake()
     apple()
 
-    
+    if (player_x_column == apple_x) and (player_y_row == apple_y):
+        for i in range (len(snake_len)):
+            snake_len.append(happy)
 
 def grid_background():
     arcade.draw_texture_rectangle(SCREEN_WIDTH//2, SCREEN_HEIGHT//2, grid_texture.width, grid_texture.height, grid_texture, 0)
@@ -121,9 +123,7 @@ def snake():
 
     snake_len.append([player_x_column, player_y_row])
     
-    if (player_x_column == apple_x) and (player_y_row == apple_y):
-        for i in range (len(snake_len)):
-            snake_len.append(happy)
+    
 
 
     for i in range (len(snake_len)):
