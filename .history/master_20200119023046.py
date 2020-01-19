@@ -33,6 +33,7 @@ right = False
 player_x_column = 5
 player_y_row = 5
 body = 0
+snake_len = []
 
 
 apple_x = random.randint(0, COLUMN_COUNT)
@@ -114,7 +115,8 @@ def snake():
 
 
     arcade.draw_rectangle_filled(player_x , player_y, WIDTH, HEIGHT, arcade.color.BLUE)
-    snake_len = [[player_x_column, player_y_row]]
+
+    snake_len.append = ([player_x_column, player_y_row])
 
     if 4 > body > 0:
         for i in range (body):

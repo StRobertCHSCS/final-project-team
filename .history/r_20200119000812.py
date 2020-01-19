@@ -1,4 +1,4 @@
-
+'''
 """
  Simple snake example.
  
@@ -386,4 +386,3 @@ def exit():
 # To start the whole game
 home(0, 0)
 print("Thank you for playing the game :)")
-'''

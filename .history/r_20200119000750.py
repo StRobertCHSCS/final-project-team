@@ -1,4 +1,4 @@
-
+'''
 """
  Simple snake example.
  
@@ -60,7 +60,7 @@ snake_segments = []
 for i in range(15):
     x = 250 - (segment_width + segment_margin) * i
     y = 30
-    segment = Segment(x, y)
+    segment = segment(x, y)
     snake_segments.append(segment)
     allspriteslist.add(segment)
  
@@ -386,4 +386,3 @@ def exit():
 # To start the whole game
 home(0, 0)
 print("Thank you for playing the game :)")
-'''

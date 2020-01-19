@@ -32,7 +32,8 @@ right = False
 
 player_x_column = 5
 player_y_row = 5
-body = 0
+body = [i]
+
 
 
 apple_x = random.randint(0, COLUMN_COUNT)
@@ -114,20 +115,16 @@ def snake():
 
 
     arcade.draw_rectangle_filled(player_x , player_y, WIDTH, HEIGHT, arcade.color.BLUE)
-    snake_len = [[player_x_column, player_y_row]]
 
-    if 4 > body > 0:
-        for i in range (body):
-            snake_len.append([player_x_column, player_y_row])
-            snake_len[i]= snake_len[i-1]
-    
+    snake_len = [player_x_column, player_y_row]
 
 
 
-    for i in range (body):
+
+    for body in range (len(snake_len)):
         arcade.draw_rectangle_filled(
-            (MARGIN + WIDTH) * snake_len[i][0] + MARGIN + WIDTH // 2, 
-            (MARGIN + HEIGHT) * snake_len[i][1] + MARGIN + HEIGHT // 2 , 
+            (MARGIN + WIDTH) * snake_len[0] + MARGIN + WIDTH // 2, 
+            (MARGIN + HEIGHT) * snake_len[1] + MARGIN + HEIGHT // 2 , 
             WIDTH, HEIGHT, arcade.color.BLUE)
 
 
@@ -142,11 +139,11 @@ def apple():
 
     if (player_x_column == apple_x) and (player_y_row == apple_y):
         apple_display = False            
-        body += 1 
+        body[i] += 1 
     else:
         apple_display = True
 
-    print (snake_len)
+    print (body)
 
     if apple_display is True:
         arcade.draw_rectangle_filled(apple_x_coordinate, apple_y_coordinate, WIDTH, HEIGHT, arcade.color.RED)

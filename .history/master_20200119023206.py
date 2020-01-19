@@ -114,12 +114,13 @@ def snake():
 
 
     arcade.draw_rectangle_filled(player_x , player_y, WIDTH, HEIGHT, arcade.color.BLUE)
-    snake_len = [[player_x_column, player_y_row]]
+
+    snake_len = ([player_x_column, player_y_row])
 
     if 4 > body > 0:
         for i in range (body):
             snake_len.append([player_x_column, player_y_row])
-            snake_len[i]= snake_len[i-1]
+            #snake_len[i]= snake_len[i-1]
     
 
 

@@ -99,7 +99,7 @@ while not done:
     # Figure out where new segment will be
     x = snake_segments[0].rect.x + x_change
     y = snake_segments[0].rect.y + y_change
-    segment = Segment(x, y)
+    segment = segment(x, y)
  
     # Insert new segment into the list
     snake_segments.insert(0, segment)
