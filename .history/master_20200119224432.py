@@ -33,8 +33,9 @@ left = False
 right = False
 
 # Use snakes position shown on grid, not the python coordinates
-player_x_column = 5
-player_y_row = 5
+player_location = [5, 5]
+# player_x_column = 5
+# player_y_row = 5
 
 # Length of the snake body
 body = 1
@@ -53,7 +54,6 @@ apple_display = True
 # Background grid
 grid_texture = arcade.load_texture("29x51_grid.jpg")
 
-count = 0 
 
 
 
@@ -63,65 +63,46 @@ def on_update(delta_time):
 
 def on_draw():
     arcade.start_render()
-    main_game()
-
-
-def main_game():
     grid_background()
     snake()
     apple()
-
-
-def start_screen():
-
-    count += 1
+    
 
 def grid_background():
     arcade.draw_texture_rectangle(SCREEN_WIDTH//2, SCREEN_HEIGHT//2, grid_texture.width, grid_texture.height, grid_texture, 0)
 
 
 def snake_move():
-    global player_x, player_y, player_x_column, player_y_row
-    global snake_pos
+    global player_x, player_y, player_x_column, player_y_row, player_location
 
-    if (0 <= player_x_column < COLUMN_COUNT) and (0 <= player_y_row < ROW_COUNT):
+
+    if (0 <= player_location[0] < COLUMN_COUNT) and (0 <= player_location[1] < ROW_COUNT):
         if up:
-            player_y_row += 1
+            player_location[1] += 1
 
         elif down:
-            player_y_row -= 1
+            player_location[1] -= 1
 
         elif right:
-            player_x_column += 1
+            player_location[0] += 1
 
         elif left:
-            player_x_column -= 1
+            player_location[0] -= 1
     else:
         restart()
 
-    suicide_check = []
-    for position in snake_pos:
-        if position not in suicide_check:
-            suicide_check.append(position)
-        else:
-            restart()
-    
-    print(suicide_check, len(snake_pos), snake_pos)
-
-
 
     # Player coordinates
-    player_x = (MARGIN + WIDTH) * player_x_column + MARGIN + WIDTH // 2
-    player_y = (MARGIN + HEIGHT) * player_y_row + MARGIN + HEIGHT // 2
-
+    player_x = (MARGIN + WIDTH) * player_location[0] + MARGIN + WIDTH // 2
+    player_y = (MARGIN + HEIGHT) * player_location[1] + MARGIN + HEIGHT // 2
+ 
 
 def restart():
-    global player_x_column, player_y_row, snake_len, body, snake_pos
+    global player_x_column, player_y_row
     global up, down, left, right
-    player_x_column = 5
-    player_y_row = 5
+    player_location = [5, 5]
     snake_len = []
-    body = 1
+    body = 0
     snake_pos = []
     up = False
     down = False
@@ -131,13 +112,13 @@ def restart():
 
 
 def snake():
-    global player_x_column, player_y_row, snake_len, body
-    global apple_x, apple_y
+    global player_x_column, player_y_row, apple_x, apple_y, snake_len, body
+
 
     arcade.draw_rectangle_filled(player_x , player_y, WIDTH, HEIGHT, arcade.color.BLUE)
-    snake_len = [[player_x_column, player_y_row]]
+    snake_len = [player_location[0], player_location[1]]
     
-    snake_pos.append([player_x_column, player_y_row])
+    snake_pos.append(player_location)
 
     if body < len(snake_pos):
         snake_pos.pop(0)
@@ -145,7 +126,8 @@ def snake():
     if (body > 1):
         for num in range (1, body):
             snake_len.append([snake_pos[num - 1][0], snake_pos[num - 1][1]])
-    # print(snake_len, "body", body, len(snake_pos), snake_pos)
+    print(snake_len, "body", body, len(snake_pos), snake_pos)
+
 
     for i in range (body):
         arcade.draw_rectangle_filled(
@@ -162,7 +144,7 @@ def apple():
     apple_x_coordinate = (MARGIN + WIDTH) * apple_x + MARGIN + WIDTH // 2  
     apple_y_coordinate = (MARGIN + HEIGHT) * apple_y + MARGIN + HEIGHT // 2
     
-    if (player_x_column == apple_x) and (player_y_row == apple_y):
+    if (player_location[0] == apple_x) and (player_location[1] == apple_y):
         apple_display = False            
         body += 1
         print ("hit")
@@ -174,41 +156,42 @@ def apple():
     elif apple_display is False:
         apple_x = random.randint(0, COLUMN_COUNT)
         apple_y = random.randint(0, ROW_COUNT)
-
-        # Make sure that apple doesn't spawn where the snake is 
-        for apple in range (len(snake_pos)):
-                if apple_x == snake_pos[apple][0] or apple_y == snake_pos[apple][1]:
-                    apple_x = random.randint(0, COLUMN_COUNT)
-                    apple_y = random.randint(0, ROW_COUNT)
-                    
-
         apple_x_coordinate = (MARGIN + WIDTH) * apple_x + MARGIN + WIDTH // 2  
         apple_y_coordinate = (MARGIN + HEIGHT) * apple_y + MARGIN + HEIGHT // 2
         apple_display == True      
 
 def on_key_press(key, modifiers):
     global up, down, left, right
-    if (key == arcade.key.W) and (down == False):
+    if key == arcade.key.W:
         up = True
         down = False
         right = False
         left = False
-    elif (key == arcade.key.S) and (up == False):
+
+    elif key == arcade.key.S:
         down = True
         up = False
         right = False
         left = False
-    elif (key == arcade.key.A) and (right == False):
+
+    elif key == arcade.key.A:
         left = True 
         up = False
         down = False
         right = False
-    elif (key == arcade.key.D) and (left == False):
+
+    elif key == arcade.key.D:
         right = True
         up = False
         down = False
         left = False
+
+
+
     
+    
+
+
 
 def on_key_release(key, modifiers):
     pass
@@ -218,19 +201,23 @@ def on_mouse_press(x, y, button, modifiers):
     pass
 
 
+
+
+
+
 def setup():
     global grid
 
-    SPEED = float(input("What fast do you want? \n Noob: Type 0.5 \n Normal: Type 1 \n Hard: Type 1.5 - 2 \n Expert: Type 2.5 or more \n *Changes the refresh rate* \n"))
-        # global player_x_column, apple_x, player_y_row, apple_y, SPEED
-        # SPEED = 10
 
-        # if (player_x_column == apple_x) and (player_y_row == apple_y):
-        #     SPEED += 5
+    # global player_x_column, apple_x, player_y_row, apple_y, SPEED
+    # SPEED = 10
+
+    # if (player_x_column == apple_x) and (player_y_row == apple_y):
+    #     SPEED += 5
 
     arcade.open_window(SCREEN_WIDTH, SCREEN_HEIGHT, "snake")
     arcade.set_background_color(arcade.color.BLACK)
-    arcade.schedule(on_update, 1/(10  * SPEED))
+    arcade.schedule(on_update, 1/10)
 
     # Override arcade window methods
     window = arcade.get_window()

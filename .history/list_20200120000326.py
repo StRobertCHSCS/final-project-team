@@ -221,7 +221,7 @@ def on_mouse_press(x, y, button, modifiers):
 def setup():
     global grid
 
-    SPEED = float(input("What fast do you want? \n Noob: Type 0.5 \n Normal: Type 1 \n Hard: Type 1.5 - 2 \n Expert: Type 2.5 or more \n *Changes the refresh rate* \n"))
+    SPEED = float(input("What fast do you want? \n Noob: Type 0.5 \n Normal: Type 1 \n Hard: Type 1.5 or 2 \n Expert: Type 2.5 or more \n *Changes the refresh rate* \n"))
         # global player_x_column, apple_x, player_y_row, apple_y, SPEED
         # SPEED = 10
 

@@ -57,7 +57,7 @@ count = 0
 
 
 
-def on_update(delta_time):
+def on_update(delta_time * SPEED):
     snake_move()
 
 
@@ -174,14 +174,6 @@ def apple():
     elif apple_display is False:
         apple_x = random.randint(0, COLUMN_COUNT)
         apple_y = random.randint(0, ROW_COUNT)
-
-        # Make sure that apple doesn't spawn where the snake is 
-        for apple in range (len(snake_pos)):
-                if apple_x == snake_pos[apple][0] or apple_y == snake_pos[apple][1]:
-                    apple_x = random.randint(0, COLUMN_COUNT)
-                    apple_y = random.randint(0, ROW_COUNT)
-                    
-
         apple_x_coordinate = (MARGIN + WIDTH) * apple_x + MARGIN + WIDTH // 2  
         apple_y_coordinate = (MARGIN + HEIGHT) * apple_y + MARGIN + HEIGHT // 2
         apple_display == True      
@@ -221,16 +213,16 @@ def on_mouse_press(x, y, button, modifiers):
 def setup():
     global grid
 
-    SPEED = float(input("What fast do you want? \n Noob: Type 0.5 \n Normal: Type 1 \n Hard: Type 1.5 - 2 \n Expert: Type 2.5 or more \n *Changes the refresh rate* \n"))
-        # global player_x_column, apple_x, player_y_row, apple_y, SPEED
-        # SPEED = 10
 
-        # if (player_x_column == apple_x) and (player_y_row == apple_y):
-        #     SPEED += 5
+    # global player_x_column, apple_x, player_y_row, apple_y, SPEED
+    # SPEED = 10
+
+    # if (player_x_column == apple_x) and (player_y_row == apple_y):
+    #     SPEED += 5
 
     arcade.open_window(SCREEN_WIDTH, SCREEN_HEIGHT, "snake")
     arcade.set_background_color(arcade.color.BLACK)
-    arcade.schedule(on_update, 1/(10  * SPEED))
+    arcade.schedule(on_update, 1/10)
 
     # Override arcade window methods
     window = arcade.get_window()
