@@ -33,8 +33,7 @@ right = False
 
 player_x_column = 5
 player_y_row = 5
-body = 1
-snake_pos = []
+body = 0
 
 
 apple_x = random.randint(0, COLUMN_COUNT)
@@ -50,17 +49,21 @@ grid_texture = arcade.load_texture("29x51_grid.jpg")
 def on_update(delta_time):
     snake_move()
 
+    
+
 
 def on_draw():
     arcade.start_render()
     grid_background()
     snake()
     apple()
+
     
 
 def grid_background():
     arcade.draw_texture_rectangle(SCREEN_WIDTH//2, SCREEN_HEIGHT//2, grid_texture.width, grid_texture.height, grid_texture, 0)
 
+    
 
 def snake_move():
     global player_x, player_y, player_x_column, player_y_row
@@ -100,7 +103,6 @@ def restart():
     player_x_column = 5
     player_y_row = 5
     snake_len = []
-    body = 1
     up = False
     down = False
     left = False
@@ -115,17 +117,12 @@ def snake():
     arcade.draw_rectangle_filled(player_x , player_y, WIDTH, HEIGHT, arcade.color.BLUE)
     snake_len = [[player_x_column, player_y_row]]
 
+    if 4 > body > 0:
+        for i in range (body):
+            snake_len.append([0, 0])
+            snake_len[i]= snake_len[i-1]
     
-    
-    snake_pos.append([player_x_column, player_y_row])
 
-    if body < len(snake_pos):
-        snake_pos.pop(0)
-
-    if (body > 1):
-        for num in range (1, body):
-            snake_len.append([snake_pos[num - 1][0], snake_pos[num - 1][1]])
-    print(snake_len, "body", body, len(snake_pos), snake_pos)
 
 
     for i in range (body):
@@ -133,6 +130,8 @@ def snake():
             (MARGIN + WIDTH) * snake_len[i][0] + MARGIN + WIDTH // 2, 
             (MARGIN + HEIGHT) * snake_len[i][1] + MARGIN + HEIGHT // 2 , 
             WIDTH, HEIGHT, arcade.color.BLUE)
+
+
 
 
 def apple():
@@ -144,11 +143,11 @@ def apple():
 
     if (player_x_column == apple_x) and (player_y_row == apple_y):
         apple_display = False            
-        body += 1
-        print ("hit")
+        body += 1 
     else:
         apple_display = True
 
+    print (snake_len)
 
     if apple_display is True:
         arcade.draw_rectangle_filled(apple_x_coordinate, apple_y_coordinate, WIDTH, HEIGHT, arcade.color.RED)

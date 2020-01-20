@@ -127,6 +127,10 @@ def snake():
             snake_len.append([snake_pos[num - 1][0], snake_pos[num - 1][1]])
     print(snake_len, "body", body, len(snake_pos), snake_pos)
 
+    # for index in range (body - 1, 0, -1):
+    #     player_x_column = snake_len[index - 1][0]
+    #     player_y_row = snake_len[index - 1][1]
+    #     snake_len[index]
 
     for i in range (body):
         arcade.draw_rectangle_filled(

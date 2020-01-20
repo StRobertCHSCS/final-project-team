@@ -33,8 +33,7 @@ right = False
 
 player_x_column = 5
 player_y_row = 5
-body = 1
-snake_pos = []
+snake_body = []
 
 
 apple_x = random.randint(0, COLUMN_COUNT)
@@ -109,24 +108,30 @@ def restart():
 
 
 def snake():
-    global player_x_column, player_y_row, apple_x, apple_y, snake_len, body
+    global player_x_column, player_y_row, apple_x, apple_y, snake_len, snake_body, snake_head
 
 
     arcade.draw_rectangle_filled(player_x , player_y, WIDTH, HEIGHT, arcade.color.BLUE)
-    snake_len = [[player_x_column, player_y_row]]
+    snake_head = [player_x_column, player_y_row]
+    snake_len = [snake_head]
 
     
+
+
+    # if (len(snake_body) > 1):
+    #     for num in range (1, len(snake_body):
+
+
+            # snake_len[i]= snake_len[i-1]
+    print("body", body)
+        
+
     
-    snake_pos.append([player_x_column, player_y_row])
 
-    if body < len(snake_pos):
-        snake_pos.pop(0)
-
-    if (body > 1):
-        for num in range (1, body):
-            snake_len.append([snake_pos[num - 1][0], snake_pos[num - 1][1]])
-    print(snake_len, "body", body, len(snake_pos), snake_pos)
-
+    # for index in range (body - 1, 0, -1):
+    #     player_x_column = snake_len[index - 1][0]
+    #     player_y_row = snake_len[index - 1][1]
+    #     snake_len[index]
 
     for i in range (body):
         arcade.draw_rectangle_filled(
@@ -134,9 +139,8 @@ def snake():
             (MARGIN + HEIGHT) * snake_len[i][1] + MARGIN + HEIGHT // 2 , 
             WIDTH, HEIGHT, arcade.color.BLUE)
 
-
 def apple():
-    global apple_x, apple_y, apple_x_coordinate, apple_y_coordinate, body, snake_len
+    global apple_x, apple_y, apple_x_coordinate, apple_y_coordinate, snake_body, snake_len
     global SPEED
 
     apple_x_coordinate = (MARGIN + WIDTH) * apple_x + MARGIN + WIDTH // 2  
@@ -144,11 +148,13 @@ def apple():
 
     if (player_x_column == apple_x) and (player_y_row == apple_y):
         apple_display = False            
-        body += 1
+        snake_body.append([10 + num, 10])
+        snake_head.append(snake_body)
         print ("hit")
     else:
         apple_display = True
 
+    print (snake_len)
 
     if apple_display is True:
         arcade.draw_rectangle_filled(apple_x_coordinate, apple_y_coordinate, WIDTH, HEIGHT, arcade.color.RED)
@@ -185,22 +191,12 @@ def on_key_press(key, modifiers):
         down = False
         left = False
 
-
-
-    
-    
-
-
-
 def on_key_release(key, modifiers):
     pass
 
 
 def on_mouse_press(x, y, button, modifiers):
     pass
-
-
-
 
 
 

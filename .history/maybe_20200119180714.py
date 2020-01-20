@@ -147,7 +147,7 @@ while True:
         y = segments[index-1].ycor()
         segments[index].goto(x, y)
     
-        print(x, y)
+    print(x, y)
 
 
     # Move segment 0 to where the head is

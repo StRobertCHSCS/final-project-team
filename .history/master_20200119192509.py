@@ -115,18 +115,21 @@ def snake():
     arcade.draw_rectangle_filled(player_x , player_y, WIDTH, HEIGHT, arcade.color.BLUE)
     snake_len = [[player_x_column, player_y_row]]
 
-    
-    
-    snake_pos.append([player_x_column, player_y_row])
-
-    if body < len(snake_pos):
-        snake_pos.pop(0)
-
     if (body > 1):
         for num in range (1, body):
-            snake_len.append([snake_pos[num - 1][0], snake_pos[num - 1][1]])
-    print(snake_len, "body", body, len(snake_pos), snake_pos)
+            snake_len.append([10 + num, 10])
+            # snake_len[i]= snake_len[i-1]
+    print("body", body, len(snake_pos), snake_pos)
+    
+    snake_pos.append(snake_len)
 
+    if body <= len(snake_pos):
+        snake_pos.pop(0)
+
+    # for index in range (body - 1, 0, -1):
+    #     player_x_column = snake_len[index - 1][0]
+    #     player_y_row = snake_len[index - 1][1]
+    #     snake_len[index]
 
     for i in range (body):
         arcade.draw_rectangle_filled(

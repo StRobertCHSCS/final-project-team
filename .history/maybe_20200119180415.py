@@ -91,6 +91,7 @@ wn.onkeypress(go_right, "d")
 # Main game loop
 while True:
     wn.update()
+    print(segments)
     # Check for a collision with the border
     if head.xcor()>290 or head.xcor()<-290 or head.ycor()>290 or head.ycor()<-290:
         time.sleep(1)
@@ -146,9 +147,6 @@ while True:
         x = segments[index-1].xcor()
         y = segments[index-1].ycor()
         segments[index].goto(x, y)
-    
-        print(x, y)
-
 
     # Move segment 0 to where the head is
     if len(segments) > 0:
