@@ -27,7 +27,7 @@ def on_draw():
                                         buttons[i][3],
                                         arcade.color.BLACK)
 
-        arcade.draw_text(buttons[i][4], buttons[i][0] + (buttons[i][2] // 2), buttons[i][1] + (buttons[i][3] // 2), arcade.color.BLUE, 10, font_name= "comic sans", anchor_x="center", anchor_y="center")
+        arcade.draw_text(buttons[i][4], buttons[i][0] + buttons[i][2] // 2), buttons[i][1] + (buttons[i][3] // 2), arcade.color.BLUE, 10, font_name= "comic sans", anchor_x="center", anchor_y="center")
 
     print(len(buttons))
     if show_text:

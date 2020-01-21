@@ -245,7 +245,7 @@ def on_key_release(key, modifiers):
 
 
 def on_mouse_press(x, y, button, modifiers):
-    global show_text, my_button, page
+    global show_text, my_button, page, SPEED
     while page == 0:
         # For starting screen, check which button has been clicked
         if (x > buttons[0][0] and x < buttons[0][0] + buttons[0][2] and
@@ -279,7 +279,7 @@ def on_mouse_press(x, y, button, modifiers):
 def setup():
     global grid
 
-    SPEED = float(input("What fast do you want? \n Noob: Type 0.5 \n Normal: Type 1 \n Hard: Type 1.5 - 2 \n Expert: Type 2.5 or more \n *Changes the refresh rate* \n"))
+    #SPEED = float(input("What fast do you want? \n Noob: Type 0.5 \n Normal: Type 1 \n Hard: Type 1.5 - 2 \n Expert: Type 2.5 or more \n *Changes the refresh rate* \n"))
         
 
     arcade.open_window(SCREEN_WIDTH, SCREEN_HEIGHT, "snake")

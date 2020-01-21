@@ -19,7 +19,7 @@ def on_draw():
     global my_button
     arcade.start_render()
     # Draw in here...
-    arcade.draw_text("Welcome to snake \n choose your level", 2*(WIDTH//5), 3*(HEIGHT//4), arcade.color.BLACK, 25, font_name= "comic sans")
+    arcade.draw_text("Welcome to snake \n choose your level", 2*(WIDTH//5), 3*(HEIGHT//4), arcade.color.BLACK, 25, font_name= "comic_sans")
     for i in range (0, 4):
         arcade.draw_xywh_rectangle_filled(buttons[i][0],
                                         buttons[i][1],

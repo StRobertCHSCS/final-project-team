@@ -4,7 +4,6 @@
     DONEEE
 -fix player_location lists, so that the list only has the location of the current snake location, not infinite list (done)
 - fix apple so disappers when you go over it (done)
-- add score
 '''
 
 
@@ -66,7 +65,7 @@ apple_display = True
 grid_texture = arcade.load_texture("29x51_grid.jpg")
 
 score = 0
-page = 0
+count = 0 
 
 def on_update(delta_time):
     snake_move()
@@ -74,12 +73,9 @@ def on_update(delta_time):
 
 def on_draw():
     arcade.start_render()
-    if page == 0:
-        start_screen()
-    elif page == 1:
-        main_game()
-    
-    print(page)
+    print(SCREEN_WIDTH, SCREEN_HEIGHT)
+
+    start_screen()
 
 
 def main_game():
@@ -90,7 +86,7 @@ def main_game():
 
 def start_screen():
     global buttons
-    arcade.draw_text("Welcome to snake \n choose your level", 2*(SCREEN_WIDTH//5), 3*(SCREEN_HEIGHT//4), arcade.color.WHITE, 25, font_name='calibri')
+    arcade.draw_text("Welcome to snake \n choose your level", 2*(SCREEN_WIDTH//5), 3*(SCREEN_HEIGHT//4), arcade.color.WHITE, 25, font_name= "MV Boli")
 
     for i in range (0, 4):
         arcade.draw_xywh_rectangle_filled(buttons[i][0],
@@ -99,8 +95,7 @@ def start_screen():
                                         buttons[i][3],
                                         arcade.color.WHITE)
 
-        arcade.draw_text(buttons[i][4], buttons[i][0] + (buttons[i][2] // 2), buttons[i][1] + (buttons[i][3] // 2),
-                         arcade.color.BLACK, 15, font_name='calibri', anchor_x="center", anchor_y="center")
+        arcade.draw_text(buttons[i][4], buttons[i][0] + (buttons[i][2] // 2), buttons[i][1] + (buttons[i][3] // 2), arcade.color.BLACK, 10, font_name= "comic sans", anchor_x="center", anchor_y="center")
     if show_text:
             print("click")
             arcade.draw_text("the button was clicked", 500, 600, arcade.color.RED, 12)
@@ -133,6 +128,9 @@ def snake_move():
             suicide_check.append(position)
         else:
             restart()
+    
+    #print(suicide_check, len(snake_pos), snake_pos)
+
 
 
     # Player coordinates
@@ -170,6 +168,7 @@ def snake():
     if (body > 1):
         for num in range (1, body):
             snake_len.append([snake_pos[num - 1][0], snake_pos[num - 1][1]])
+    # print(snake_len, "body", body, len(snake_pos), snake_pos)
 
     for i in range (body):
         arcade.draw_rectangle_filled(
@@ -245,42 +244,34 @@ def on_key_release(key, modifiers):
 
 
 def on_mouse_press(x, y, button, modifiers):
-    global show_text, my_button, page
-    while page == 0:
-        # For starting screen, check which button has been clicked
-        if (x > buttons[0][0] and x < buttons[0][0] + buttons[0][2] and
-                    y > buttons[0][1] and y < buttons[0][1] + buttons[0][3]):
-                show_text = True
-                page += 1
-                SPEED = 0.5
-                print("noob")
-        elif (x > buttons[1][0] and x < buttons[1][0] + buttons[1][2] and
-                    y > buttons[1][1] and y < buttons[1][1] + buttons[1][3]):
-                show_text = True
-                page += 1
-                SPEED = 1
-                print("normal")
-        elif (x > buttons[2][0] and x < buttons[2][0] + buttons[2][2] and
-                    y > buttons[2][1] and y < buttons[2][1] + buttons[2][3]):
-                show_text = True
-                page += 1
-                SPEED = 2
-                print("hard")
-        elif (x > buttons[3][0] and x < buttons[3][0] + buttons[3][2] and
-                    y > buttons[3][1] and y < buttons[3][1] + buttons[3][3]):
-                show_text = True
-                page += 1
-                SPEED = 2.5
-                print("expert")
-        else:
-            show_text = False
+    global show_text, my_button
+
+    # For starting screen, check which button has been clicked
+    if (x > buttons[0][0] and x < buttons[0][0] + buttons[0][2] and
+                y > buttons[0][1] and y < buttons[0][1] + buttons[0][3]):
+            show_text = True
+    elif (x > buttons[1][0] and x < buttons[1][0] + buttons[1][2] and
+                y > buttons[1][1] and y < buttons[1][1] + buttons[1][3]):
+            show_text = True
+    elif (x > buttons[2][0] and x < buttons[2][0] + buttons[2][2] and
+                y > buttons[2][1] and y < buttons[2][1] + buttons[2][3]):
+            show_text = True
+    elif (x > buttons[3][0] and x < buttons[3][0] + buttons[3][2] and
+                y > buttons[3][1] and y < buttons[3][1] + buttons[3][3]):
+            show_text = True
+    else:
+        show_text = False
 
 
 def setup():
     global grid
 
     SPEED = float(input("What fast do you want? \n Noob: Type 0.5 \n Normal: Type 1 \n Hard: Type 1.5 - 2 \n Expert: Type 2.5 or more \n *Changes the refresh rate* \n"))
-        
+        # global player_x_column, apple_x, player_y_row, apple_y, SPEED
+        # SPEED = 10
+
+        # if (player_x_column == apple_x) and (player_y_row == apple_y):
+        #     SPEED += 5
 
     arcade.open_window(SCREEN_WIDTH, SCREEN_HEIGHT, "snake")
     arcade.set_background_color(arcade.color.BLACK)

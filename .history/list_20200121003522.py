@@ -21,17 +21,17 @@ def on_draw():
     # Draw in here...
     arcade.draw_text("Welcome to snake \n choose your level", 2*(WIDTH//5), 3*(HEIGHT//4), arcade.color.BLACK, 25, font_name= "comic sans")
     for i in range (0, 4):
-        arcade.draw_xywh_rectangle_filled(buttons[i][0],
+        arcade.draw_rectangle_filled(buttons[i][0],
                                         buttons[i][1],
                                         buttons[i][2],
                                         buttons[i][3],
                                         arcade.color.BLACK)
 
-        arcade.draw_text(buttons[i][4], buttons[i][0] + (buttons[i][2] // 2), buttons[i][1] + (buttons[i][3] // 2), arcade.color.BLUE, 10, font_name= "comic sans", anchor_x="center", anchor_y="center")
-
+        arcade.draw_text(buttons[i][4], buttons[i][0], buttons[i][1], arcade.color.BLUE, 10, font_name= "comic sans", anchor_x="center", anchor_y="center")
+        if i == 8:
+            break
     print(len(buttons))
     if show_text:
-        print("click")
         arcade.draw_text("the button was clicked", 500, 600, arcade.color.RED, 12)
 def on_key_press(key, modifiers):
     pass
@@ -44,32 +44,16 @@ def on_key_release(key, modifiers):
 def on_mouse_press(x, y, button, modifiers):
     global show_text, my_button
     # unpack the button list into readable? variables.
+    my_button_x, my_button_y, my_button_w, my_button_h = buttons[i]
 
     # Need to check all four limits of the button.
-    # for i in range (len(buttons)):  
-    #     if (x > buttons[i][0] and x < buttons[i][0] + buttons[i][2] and
-    #             y > buttons[i][1] and y < buttons[i][1] + buttons[i][3]):
-    #         show_text = True
-    #     else:
-    #         show_text = False
-
-    if (x > buttons[0][0] and x < buttons[0][0] + buttons[0][2] and
-                y > buttons[0][1] and y < buttons[0][1] + buttons[0][3]):
-            show_text = True
-
-    elif (x > buttons[1][0] and x < buttons[1][0] + buttons[1][2] and
-                y > buttons[1][1] and y < buttons[1][1] + buttons[1][3]):
-            show_text = True
-
-    elif (x > buttons[2][0] and x < buttons[2][0] + buttons[2][2] and
-                y > buttons[2][1] and y < buttons[2][1] + buttons[2][3]):
-            show_text = True
-    elif (x > buttons[3][0] and x < buttons[3][0] + buttons[3][2] and
-                y > buttons[3][1] and y < buttons[3][1] + buttons[3][3]):
-            show_text = True
+    if (x > my_button_x and x < my_button_x + my_button_w and
+            y > my_button_y and y < my_button_y + my_button_h):
+        show_text = True
     else:
         show_text = False
 
+    
 
 
 def setup():

@@ -21,14 +21,15 @@ def on_draw():
     # Draw in here...
     arcade.draw_text("Welcome to snake \n choose your level", 2*(WIDTH//5), 3*(HEIGHT//4), arcade.color.BLACK, 25, font_name= "comic sans")
     for i in range (0, 4):
-        arcade.draw_xywh_rectangle_filled(buttons[i][0],
+        arcade.draw_rectangle_filled(buttons[i][0],
                                         buttons[i][1],
                                         buttons[i][2],
                                         buttons[i][3],
                                         arcade.color.BLACK)
 
-        arcade.draw_text(buttons[i][4], buttons[i][0] + (buttons[i][2] // 2), buttons[i][1] + (buttons[i][3] // 2), arcade.color.BLUE, 10, font_name= "comic sans", anchor_x="center", anchor_y="center")
-
+        arcade.draw_text(buttons[i][4], buttons[i][0], buttons[i][1], arcade.color.BLUE, 10, font_name= "comic sans", anchor_x="center", anchor_y="center")
+        if i == 8:
+            break
     print(len(buttons))
     if show_text:
         print("click")

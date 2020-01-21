@@ -246,41 +246,41 @@ def on_key_release(key, modifiers):
 
 def on_mouse_press(x, y, button, modifiers):
     global show_text, my_button, page
-    while page == 0:
-        # For starting screen, check which button has been clicked
-        if (x > buttons[0][0] and x < buttons[0][0] + buttons[0][2] and
-                    y > buttons[0][1] and y < buttons[0][1] + buttons[0][3]):
-                show_text = True
-                page += 1
-                SPEED = 0.5
-                print("noob")
-        elif (x > buttons[1][0] and x < buttons[1][0] + buttons[1][2] and
-                    y > buttons[1][1] and y < buttons[1][1] + buttons[1][3]):
-                show_text = True
-                page += 1
-                SPEED = 1
-                print("normal")
-        elif (x > buttons[2][0] and x < buttons[2][0] + buttons[2][2] and
-                    y > buttons[2][1] and y < buttons[2][1] + buttons[2][3]):
-                show_text = True
-                page += 1
-                SPEED = 2
-                print("hard")
-        elif (x > buttons[3][0] and x < buttons[3][0] + buttons[3][2] and
-                    y > buttons[3][1] and y < buttons[3][1] + buttons[3][3]):
-                show_text = True
-                page += 1
-                SPEED = 2.5
-                print("expert")
-        else:
-            show_text = False
+
+    # For starting screen, check which button has been clicked
+    if (x > buttons[0][0] and x < buttons[0][0] + buttons[0][2] and
+                y > buttons[0][1] and y < buttons[0][1] + buttons[0][3]):
+            show_text = True
+            page += 1
+            print("noob")
+    elif (x > buttons[1][0] and x < buttons[1][0] + buttons[1][2] and
+                y > buttons[1][1] and y < buttons[1][1] + buttons[1][3]):
+            show_text = True
+            page += 1
+            print("normal")
+    elif (x > buttons[2][0] and x < buttons[2][0] + buttons[2][2] and
+                y > buttons[2][1] and y < buttons[2][1] + buttons[2][3]):
+            show_text = True
+            page += 1
+            print("hard")
+    elif (x > buttons[3][0] and x < buttons[3][0] + buttons[3][2] and
+                y > buttons[3][1] and y < buttons[3][1] + buttons[3][3]):
+            show_text = True
+            page += 1
+            print("expert")
+    else:
+        show_text = False
 
 
 def setup():
     global grid
 
     SPEED = float(input("What fast do you want? \n Noob: Type 0.5 \n Normal: Type 1 \n Hard: Type 1.5 - 2 \n Expert: Type 2.5 or more \n *Changes the refresh rate* \n"))
-        
+        # global player_x_column, apple_x, player_y_row, apple_y, SPEED
+        # SPEED = 10
+
+        # if (player_x_column == apple_x) and (player_y_row == apple_y):
+        #     SPEED += 5
 
     arcade.open_window(SCREEN_WIDTH, SCREEN_HEIGHT, "snake")
     arcade.set_background_color(arcade.color.BLACK)
