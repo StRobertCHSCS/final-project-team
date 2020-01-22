@@ -4,9 +4,8 @@
     DONEEE
 -fix player_location lists, so that the list only has the location of the current snake location, not infinite list (done)
 - fix apple so disappers when you go over it (done)
-- add score (done)
+- add score
 -fix speed so that it resets when you go back to main page
-- add high score page
 '''
 
 
@@ -195,7 +194,7 @@ def snake_move():
 def restart():
     global player_x_column, player_y_row, snake_len, body, snake_pos
     global up, down, left, right
-    global page, score, SPEED
+    global page, SPEED
     player_x_column = 5
     player_y_row = 5
     snake_len = []
@@ -206,7 +205,6 @@ def restart():
     left = False
     right = False
     page = 1
-    score = 0
     SPEED = 0
     print ("You died")
 

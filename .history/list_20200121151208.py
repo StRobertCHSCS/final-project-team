@@ -348,8 +348,9 @@ def on_key_release(key, modifiers):
 def on_mouse_press(x, y, button, modifiers):
     global show_text, my_button, page
     global SPEED
-    if page == 0:
+    while page == 0:
         # For starting screen, check which button has been clicked
+        SPEED = 1
         if (x > buttons[0][0] and x < buttons[0][0] + buttons[0][2] and
                     y > buttons[0][1] and y < buttons[0][1] + buttons[0][3]):
                 show_text = True

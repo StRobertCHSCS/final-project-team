@@ -4,9 +4,8 @@
     DONEEE
 -fix player_location lists, so that the list only has the location of the current snake location, not infinite list (done)
 - fix apple so disappers when you go over it (done)
-- add score (done)
+- add score
 -fix speed so that it resets when you go back to main page
-- add high score page
 '''
 
 
@@ -195,7 +194,7 @@ def snake_move():
 def restart():
     global player_x_column, player_y_row, snake_len, body, snake_pos
     global up, down, left, right
-    global page, score, SPEED
+    global page, SPEED
     player_x_column = 5
     player_y_row = 5
     snake_len = []
@@ -206,7 +205,6 @@ def restart():
     left = False
     right = False
     page = 1
-    score = 0
     SPEED = 0
     print ("You died")
 
@@ -264,9 +262,8 @@ def apple():
 
         apple_x_coordinate = (MARGIN + WIDTH) * apple_x + MARGIN + WIDTH // 2  
         apple_y_coordinate = (MARGIN + HEIGHT) * apple_y + MARGIN + HEIGHT // 2
-        score += 10
         apple_display == True
-        
+        score += 10
     arcade.draw_text("Score is " + str(score), SCREEN_WIDTH - 75, SCREEN_HEIGHT - 50, arcade.color.GREEN,
                     25, font_name='calibri', bold = True, anchor_x="center", anchor_y="center")
 

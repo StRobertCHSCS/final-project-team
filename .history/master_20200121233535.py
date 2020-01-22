@@ -4,9 +4,8 @@
     DONEEE
 -fix player_location lists, so that the list only has the location of the current snake location, not infinite list (done)
 - fix apple so disappers when you go over it (done)
-- add score (done)
+- add score
 -fix speed so that it resets when you go back to main page
-- add high score page
 '''
 
 
@@ -144,10 +143,9 @@ def death_screen():
     elif (red == 255 and green == 0 and 0 < blue <= 255):
         blue -= 5
     
-    for i in range (2):
+    for i in range (15):
         arcade.draw_text("You died rip lol", random.randint(50, SCREEN_WIDTH), random.randint(50, SCREEN_HEIGHT), (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)),
                         50, font_name='calibri', bold = True, anchor_x="center", anchor_y="center")
-    
     for i in range (0, 4):
         arcade.draw_xywh_rectangle_filled(dead_button[i][0],
                                         dead_button[i][1],
@@ -161,7 +159,7 @@ def death_screen():
 def grid_background():
     arcade.draw_texture_rectangle(SCREEN_WIDTH//2, SCREEN_HEIGHT//2, grid_texture.width, grid_texture.height, grid_texture, 0)
 
-    
+
 def snake_move():
     global player_x, player_y, player_x_column, player_y_row
     global snake_pos
@@ -195,7 +193,7 @@ def snake_move():
 def restart():
     global player_x_column, player_y_row, snake_len, body, snake_pos
     global up, down, left, right
-    global page, score, SPEED
+    global page, SPEED
     player_x_column = 5
     player_y_row = 5
     snake_len = []
@@ -206,7 +204,6 @@ def restart():
     left = False
     right = False
     page = 1
-    score = 0
     SPEED = 0
     print ("You died")
 
@@ -261,14 +258,17 @@ def apple():
                 if apple_x == snake_pos[apple][0] or apple_y == snake_pos[apple][1]:
                     apple_x = random.randint(0, COLUMN_COUNT)
                     apple_y = random.randint(0, ROW_COUNT)
+        
+                    
 
         apple_x_coordinate = (MARGIN + WIDTH) * apple_x + MARGIN + WIDTH // 2  
         apple_y_coordinate = (MARGIN + HEIGHT) * apple_y + MARGIN + HEIGHT // 2
-        score += 10
         apple_display == True
-        
-    arcade.draw_text("Score is " + str(score), SCREEN_WIDTH - 75, SCREEN_HEIGHT - 50, arcade.color.GREEN,
-                    25, font_name='calibri', bold = True, anchor_x="center", anchor_y="center")
+        score += 1      
+
+    def high_score(score):
+        arcade.draw_text("Score: " + score, 9 * (SCREEN_WIDTH//10), 3*(SCREEN_HEIGHT//4), arcade.color.WHITE, 10, font_name= "comic sans")
+
 
 def on_key_press(key, modifiers):
     global up, down, left, right

@@ -241,7 +241,6 @@ def snake_move():
 def restart():
     global player_x_column, player_y_row, snake_len, body, snake_pos
     global up, down, left, right
-    global page
     player_x_column = 5
     player_y_row = 5
     snake_len = []
@@ -251,8 +250,6 @@ def restart():
     down = False
     left = False
     right = False
-    page = 0
-    SPEED = 0
     print ("You died")
  
  
@@ -348,7 +345,7 @@ def on_key_release(key, modifiers):
 def on_mouse_press(x, y, button, modifiers):
     global show_text, my_button, page
     global SPEED
-    if page == 0:
+    while page == 0:
         # For starting screen, check which button has been clicked
         if (x > buttons[0][0] and x < buttons[0][0] + buttons[0][2] and
                     y > buttons[0][1] and y < buttons[0][1] + buttons[0][3]):
