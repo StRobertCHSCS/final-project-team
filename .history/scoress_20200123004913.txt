@@ -1,0 +1,3 @@
+0['0']
+High score of 5 at Thu Jan 23 00:48:37 2020["0['0']\n", 'High score of 5 at Thu Jan 23 00:48:37 2020']
+High score of 5 at Thu Jan 23 00:49:07 2020

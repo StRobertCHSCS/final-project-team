@@ -105,27 +105,18 @@ def on_draw():
     elif page == 2:
         grid_background()
         death_screen()
-    elif page == 3:
-        high_score_page
+    print(high_score(score))
     
 
-def high_score(scored):
-    global high_score
+def high_score(score):
     
     with open("high_score.json", "r") as json_file:
         high_score = json.load(json_file)
     with open("high_score.json", "w") as json_file:
-        if scored > high_score:
-            json.dump(scored, json_file)
+        if score > high_score:
+            json.dump(scores, json_file)
         else:
             json.dump(high_score, json_file)
-    return scored
-
-def high_score_page():
-    global high_score
-    arcade.draw_text("The high score is " + high_score, SCREEN_WIDTH //2, SCREEN_HEIGHT // 2,
-                            arcade.color.WHITE, 50, font_name='calibri', anchor_x="center", anchor_y="center")
-
 
 def main_game():
     grid_background()
@@ -198,7 +189,7 @@ def snake_move():
             player_x_column -= 1
     else:
         page = 2
-
+        high_score(score)
 
     suicide_check = []
     for position in snake_pos:
@@ -370,7 +361,7 @@ def on_mouse_press(x, y, button, modifiers):
             print("main")
         elif (x > dead_button[2][0] and x < dead_button[2][0] + dead_button[2][2] and
                     y > dead_button[2][1] and y < dead_button[2][1] + dead_button[2][3]):
-            page = 3
+            page = 0
 
             print("high score")
         elif (x > alive_button[3][0] and x < alive_button[3][0] + alive_button[3][2] and

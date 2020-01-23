@@ -198,6 +198,7 @@ def snake_move():
             player_x_column -= 1
     else:
         page = 2
+        high_score(score)
 
 
     suicide_check = []

@@ -27,3 +27,26 @@
 # #         # high_score_file.write(sentence)
 
 
+# import json
+# score = int(input("score; "))
+# with open("score.json", "r+") as foo:
+#     if score > json.readline():
+#         json.dump(score, foo)
+
+
+import json
+
+f = open('mydata.json')
+team = json.load(f)
+
+print(team['tux'])
+print(team['tux']['health'])
+print(team['tux']['level'])
+
+print(team['beastie'])
+print(team['beastie']['health'])
+print(team['beastie']['level'])
+
+# when finished, close the file
+f.close()
+        

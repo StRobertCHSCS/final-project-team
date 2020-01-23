@@ -1,0 +1,6 @@
+score = open('scoress.txt', 'a+')
+high = int(input("high score?"))
+score.write(str(high))
+
+for line in score:
+    print(score, end='')

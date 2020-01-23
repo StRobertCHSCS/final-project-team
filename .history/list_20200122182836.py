@@ -1,15 +1,8 @@
-# high_score = open("high_score.txt", "a")
-# high_score.write("Line one")
-# high_score.close()
+high_score = open("high_score.txt", "a")
+high_score.write("Line one")
+high_score.close()
 
-file = open("high_score.txt", "w") 
- 
-file.write("“Hello World”") 
-file.write("“This is our new text file”") 
-file.write("“and this is another line.”") 
-file.write("“Why? Because we can.”") 
- 
-file.close() 
+
 
 
 

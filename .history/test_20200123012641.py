@@ -27,3 +27,9 @@
 # #         # high_score_file.write(sentence)
 
 
+import json
+scores = (int(input("score; ")))
+with open("score.json", "r+") as foo:
+    high_score = json.load(foo)
+    if scores > high_score:
+        json.dump(scores, foo)

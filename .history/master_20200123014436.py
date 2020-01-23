@@ -109,17 +109,17 @@ def on_draw():
         high_score_page
     
 
-def high_score(scored):
+def high_score(score):
     global high_score
     
     with open("high_score.json", "r") as json_file:
         high_score = json.load(json_file)
     with open("high_score.json", "w") as json_file:
-        if scored > high_score:
-            json.dump(scored, json_file)
+        if score > high_score:
+            json.dump(scores, json_file)
         else:
             json.dump(high_score, json_file)
-    return scored
+    return score
 
 def high_score_page():
     global high_score
@@ -198,7 +198,7 @@ def snake_move():
             player_x_column -= 1
     else:
         page = 2
-
+        high_score(score)
 
     suicide_check = []
     for position in snake_pos:

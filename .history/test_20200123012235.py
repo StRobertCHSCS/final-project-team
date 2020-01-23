@@ -26,4 +26,8 @@
 # #         # high_score_file.write(str(high_score) + "\n")
 # #         # high_score_file.write(sentence)
 
-
+import json
+score = []
+score.append(int(input("score; ")))
+with open("score.json", "r+") as foo:
+    json.dump(score, foo)
