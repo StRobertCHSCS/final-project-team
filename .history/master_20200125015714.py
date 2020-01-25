@@ -83,11 +83,12 @@ apple_display = True
 # Background grid
 grid_texture = arcade.load_texture("29x51_grid.jpg")
 
+sound = arcade.load_sound("shutdown.mp3")
 
 
 score = 0
 # Landing page, game, death screen, or high score
-page = 3
+page = 0
 SPEED = 1
 
 
@@ -112,20 +113,23 @@ def on_draw():
         high_score_page()
     
 
-def high_score_check(scored):
+def high_score_file(scored):
     global high_score
     
-    with open("high_score.json", "r+") as json_file:
+    with open("high_score.json", "r") as json_file:
         high_score = json.load(json_file)
-
-        if scored >= high_score:
+    with open("high_score.json", "w") as json_file:
+        if scored > high_score:
             json.dump(scored, json_file)
         else:
             json.dump(high_score, json_file)
 
 def high_score_page():
+    global high_score
+    # with open("high_score.json", "r") as json_file:
+    #     high_score = json.load(json_file)
 
-    arcade.draw_text("The high score is " + str(high_score), SCREEN_WIDTH //2, SCREEN_HEIGHT // 2,
+    arcade.draw_text("The high score is" , SCREEN_WIDTH //2, SCREEN_HEIGHT // 2,
                             arcade.color.WHITE, 50, font_name='calibri', anchor_x="center", anchor_y="center")
 
 
@@ -329,7 +333,6 @@ def on_key_release(key, modifiers):
 def on_mouse_press(x, y, button, modifiers):
     global alive_button, dead_button, page
     global start_screen, restart
-    global high_score_page
     global SPEED
 
     if page == 0:
@@ -375,7 +378,7 @@ def on_mouse_press(x, y, button, modifiers):
 
         elif (x > dead_button[1][0] and x < dead_button[1][0] + dead_button[1][2] and
                     y > dead_button[1][1] and y < dead_button[1][1] + dead_button[1][3]):
-            start_screen()
+            start_screen()           
             print("main")
 
         elif (x > dead_button[2][0] and x < dead_button[2][0] + dead_button[2][2] and
@@ -387,8 +390,21 @@ def on_mouse_press(x, y, button, modifiers):
                     y > dead_button[3][1] and y < dead_button[3][1] + dead_button[3][3]):
             print("exit")
             arcade.close_window()
+def close_window():
+    """
+    Closes the current window, and then runs garbage collection. The garbage collection
+    is necessary to prevent crashing when opening/closing windows rapidly (usually during
+    unit tests).
+    """
+    global _window
 
+    _window.close()
+    _window = None
 
+    # Have to do a garbage collection or Python will crash
+    # if we do a lot of window open and closes. Like for
+    # unit tests.
+    gc.collect()
 
 def setup():
     global grid, SPEED

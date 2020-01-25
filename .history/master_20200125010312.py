@@ -83,11 +83,9 @@ apple_display = True
 # Background grid
 grid_texture = arcade.load_texture("29x51_grid.jpg")
 
-
-
 score = 0
 # Landing page, game, death screen, or high score
-page = 3
+page = 0
 SPEED = 1
 
 
@@ -99,7 +97,6 @@ def on_update(delta_time):
 
 
 def on_draw():
-    global page 
     arcade.start_render()
     if page == 0:
         start_screen()
@@ -112,20 +109,21 @@ def on_draw():
         high_score_page()
     
 
-def high_score_check(scored):
+def high_score(scored):
     global high_score
     
-    with open("high_score.json", "r+") as json_file:
+    with open("high_score.json", "r") as json_file:
         high_score = json.load(json_file)
-
-        if scored >= high_score:
+    with open("high_score.json", "w") as json_file:
+        if scored > high_score:
             json.dump(scored, json_file)
         else:
             json.dump(high_score, json_file)
+    return scored
 
 def high_score_page():
-
-    arcade.draw_text("The high score is " + str(high_score), SCREEN_WIDTH //2, SCREEN_HEIGHT // 2,
+    global high_score
+    arcade.draw_text("The high score is " + scored, SCREEN_WIDTH //2, SCREEN_HEIGHT // 2,
                             arcade.color.WHITE, 50, font_name='calibri', anchor_x="center", anchor_y="center")
 
 
@@ -134,13 +132,10 @@ def main_game():
     snake()
     apple()
 
-def sounds():
-    arcade.play_sound(sound)
-
 
 
 def start_screen():
-    global alive_button
+    global buttons
     arcade.draw_text("Welcome to snake \n choose your level", (SCREEN_WIDTH//2), 3*(SCREEN_HEIGHT//4), 
                     arcade.color.WHITE, 25, font_name='calibri', anchor_x="center", anchor_y="center")
     for i in range (0, 4):
@@ -211,7 +206,7 @@ def snake_move():
         if position not in suicide_check:
             suicide_check.append(position)
         else:
-            page = 2
+            restart()
 
 
     # Player coordinates
@@ -329,7 +324,6 @@ def on_key_release(key, modifiers):
 def on_mouse_press(x, y, button, modifiers):
     global alive_button, dead_button, page
     global start_screen, restart
-    global high_score_page
     global SPEED
 
     if page == 0:
@@ -372,22 +366,19 @@ def on_mouse_press(x, y, button, modifiers):
                     y > dead_button[0][1] and y < dead_button[0][1] + dead_button[0][3]):
             restart()
             print("try again")
-
         elif (x > dead_button[1][0] and x < dead_button[1][0] + dead_button[1][2] and
                     y > dead_button[1][1] and y < dead_button[1][1] + dead_button[1][3]):
             start_screen()
+            page -= 2 
             print("main")
-
         elif (x > dead_button[2][0] and x < dead_button[2][0] + dead_button[2][2] and
                     y > dead_button[2][1] and y < dead_button[2][1] + dead_button[2][3]):
-            high_score_page()
             page = 3
             print("high score")
-        elif (x > dead_button[3][0] and x < dead_button[3][0] + dead_button[3][2] and
-                    y > dead_button[3][1] and y < dead_button[3][1] + dead_button[3][3]):
+        elif (x > alive_button[3][0] and x < alive_button[3][0] + alive_button[3][2] and
+                    y > alive_button[3][1] and y < alive_button[3][1] + alive_button[3][3]):
+            page = 0
             print("exit")
-            arcade.close_window()
-
 
 
 def setup():

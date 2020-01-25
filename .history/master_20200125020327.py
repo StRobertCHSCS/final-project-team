@@ -87,7 +87,7 @@ grid_texture = arcade.load_texture("29x51_grid.jpg")
 
 score = 0
 # Landing page, game, death screen, or high score
-page = 3
+page = 0
 SPEED = 1
 
 
@@ -112,20 +112,23 @@ def on_draw():
         high_score_page()
     
 
-def high_score_check(scored):
+def high_score_file(scored):
     global high_score
     
-    with open("high_score.json", "r+") as json_file:
+    with open("high_score.json", "r") as json_file:
         high_score = json.load(json_file)
-
-        if scored >= high_score:
+    with open("high_score.json", "w") as json_file:
+        if scored > high_score:
             json.dump(scored, json_file)
         else:
             json.dump(high_score, json_file)
 
 def high_score_page():
+    global high_score
+    # with open("high_score.json", "r") as json_file:
+    #     high_score = json.load(json_file)
 
-    arcade.draw_text("The high score is " + str(high_score), SCREEN_WIDTH //2, SCREEN_HEIGHT // 2,
+    arcade.draw_text("The high score is" , SCREEN_WIDTH //2, SCREEN_HEIGHT // 2,
                             arcade.color.WHITE, 50, font_name='calibri', anchor_x="center", anchor_y="center")
 
 
@@ -329,7 +332,6 @@ def on_key_release(key, modifiers):
 def on_mouse_press(x, y, button, modifiers):
     global alive_button, dead_button, page
     global start_screen, restart
-    global high_score_page
     global SPEED
 
     if page == 0:

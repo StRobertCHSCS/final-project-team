@@ -112,18 +112,16 @@ def on_draw():
         high_score_page()
     
 
-def high_score_check(scored):
+def high_score_page(scored):
     global high_score
     
     with open("high_score.json", "r+") as json_file:
         high_score = json.load(json_file)
 
-        if scored >= high_score:
+        if scored > high_score:
             json.dump(scored, json_file)
         else:
             json.dump(high_score, json_file)
-
-def high_score_page():
 
     arcade.draw_text("The high score is " + str(high_score), SCREEN_WIDTH //2, SCREEN_HEIGHT // 2,
                             arcade.color.WHITE, 50, font_name='calibri', anchor_x="center", anchor_y="center")

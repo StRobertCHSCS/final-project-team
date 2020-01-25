@@ -109,10 +109,10 @@ def on_draw():
         grid_background()
         death_screen()
     elif page == 3:
-        high_score_page()
+        high_score_page(3)
     
 
-def high_score_check(scored):
+def high_score_page(scored):
     global high_score
     
     with open("high_score.json", "r+") as json_file:
@@ -122,8 +122,6 @@ def high_score_check(scored):
             json.dump(scored, json_file)
         else:
             json.dump(high_score, json_file)
-
-def high_score_page():
 
     arcade.draw_text("The high score is " + str(high_score), SCREEN_WIDTH //2, SCREEN_HEIGHT // 2,
                             arcade.color.WHITE, 50, font_name='calibri', anchor_x="center", anchor_y="center")
