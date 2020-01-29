@@ -1,6 +1,5 @@
 '''
 -**make snake longer when eaten
-    - fix stop watch so it restarts when you restart level
     - FIGURE OUT HOW TO KNOW WHERE TO ADD THE NEXT BLOCK (MOVE LAST LOCATION TO BACK)
     DONEEE
 -fix player_location lists, so that the list only has the location of the current snake location, not infinite list (done)
@@ -14,8 +13,6 @@
 import arcade
 import random
 import json
-
-import time
 
 
 
@@ -67,8 +64,8 @@ left = False
 right = False
 
 # Use snakes position shown on grid, not the python coordinates
-player_x_column = 25
-player_y_row = 20
+player_x_column = 5
+player_y_row = 5
 
 # Length of the snake body
 body = 1
@@ -90,24 +87,19 @@ grid_texture = arcade.load_texture("29x51_grid.jpg")
 
 
 score = 0
-
 # Landing page, game, death screen, or high score
 page = 0
 SPEED = 1
 
 high_score = 0
-
 time = 0
-second = 0
-minute = 0
 
 
-red = 255
+red = 0
 green = 255
 blue = 0
 def on_update(delta_time):
-
-
+    global current_time
     snake_move()
 
 
@@ -125,48 +117,24 @@ def on_draw():
         death_screen()
     elif page == 3:
         high_score_page()
-    print(time)
-def stop_watch():
-    global time, second, minute, SPEED
-    global red, green, blue
-    time += 1
-  
-    if (time % SPEED == 0):
-        second += 1
-    elif second > 60:
-        second = 0
-        minute += 1
-
-
-
-    if (red == 255 and 0 <= green < 255 and blue == 0):
-        green += 5
-    elif (0 < red <= 255 and green == 255 and blue == 0):
-        red -= 5
-    elif (red == 0 and green == 255 and 0 <= blue < 255):
-        blue += 5
-    elif (red == 0 and 0 < green <= 255 and blue == 255):
-        green -= 5
-    elif (0 <= red < 255 and green == 0 and blue == 255):
-        red += 5
-    elif (red == 255 and green == 0 and 0 < blue <= 255):
-        blue -= 5
     
-    arcade.draw_text(f"Time: {minute:02d}:{second:02d}", 75, SCREEN_HEIGHT - 50, (red, green, blue),
-                    25, font_name='calibri', bold = True, anchor_x="center", anchor_y="center")
-
-
+def stop_watch():
+    global time
+    time += (SPEED)
+    second = time % 60
+    minute = time // second
+    arcade.draw_text()
 def high_score_check():
     global high_score, score
     
-    with open("high_score.json", "r") as high_score_file:
-        high_score = json.load(high_score_file)
+with open("high_score.json", "r") as high_score_file:
+    high_score = json.load(high_score_file)
 
-    with open("high_score.json", "w") as high_score_file:
-        if score > high_score:
-            json.dump(score, high_score_file)
-        else:
-            json.dump(high_score, high_score_file)
+with open("high_score.json", "w") as high_score_file:
+    if score > high_score:
+        json.dump(score, high_score_file)
+    else:
+        json.dump(high_score, high_score_file)
 
 def high_score_page():
     global high_score
@@ -180,16 +148,16 @@ def main_game():
     grid_background()
     snake()
     apple()
-    stop_watch()
 
 
 
 def start_screen():
-    global alive_button, SPEED
+    global alive_button
     arcade.draw_text("Welcome to snake \n choose your level", (SCREEN_WIDTH//2), 3*(SCREEN_HEIGHT//4), 
                     arcade.color.WHITE, 25, font_name='calibri', anchor_x="center", anchor_y="center")
-    # arcade.draw_text(str(current_time), (3 * SCREEN_WIDTH // 4), (SCREEN_HEIGHT//4), 
-    #         arcade.color.BLACK, 25, font_name='calibri', anchor_x="center", anchor_y="center")    
+
+    arcade.draw_text(str(current_time), (3 * SCREEN_WIDTH // 4), (SCREEN_HEIGHT//4), 
+            arcade.color.BLACK, 25, font_name='calibri', anchor_x="center", anchor_y="center")    
 
 
     for i in range (0, 4):
@@ -271,8 +239,7 @@ def snake_move():
 def restart():
     global player_x_column, player_y_row, snake_len, body, snake_pos
     global up, down, left, right
-    global page, score, time
-    global SPEED
+    global page, score, SPEED
     player_x_column = 5
     player_y_row = 5
     snake_len = []
@@ -284,8 +251,8 @@ def restart():
     right = False
     page = 1
     score = 0
-    time = 0
-    print ("You died", SPEED)
+    SPEED = 0
+    print ("You died")
 
 
 def snake():
@@ -314,6 +281,7 @@ def snake():
 def apple():
     global apple_x, apple_y, apple_x_coordinate, apple_y_coordinate, body, snake_len
     global score
+    global SPEED
 
 
     apple_x_coordinate = (MARGIN + WIDTH) * apple_x + MARGIN + WIDTH // 2  

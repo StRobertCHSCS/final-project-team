@@ -1,6 +1,5 @@
 '''
 -**make snake longer when eaten
-    - fix stop watch so it restarts when you restart level
     - FIGURE OUT HOW TO KNOW WHERE TO ADD THE NEXT BLOCK (MOVE LAST LOCATION TO BACK)
     DONEEE
 -fix player_location lists, so that the list only has the location of the current snake location, not infinite list (done)
@@ -90,7 +89,6 @@ grid_texture = arcade.load_texture("29x51_grid.jpg")
 
 
 score = 0
-
 # Landing page, game, death screen, or high score
 page = 0
 SPEED = 1
@@ -129,6 +127,7 @@ def on_draw():
 def stop_watch():
     global time, second, minute, SPEED
     global red, green, blue
+    time = 0
     time += 1
   
     if (time % SPEED == 0):
@@ -271,7 +270,7 @@ def snake_move():
 def restart():
     global player_x_column, player_y_row, snake_len, body, snake_pos
     global up, down, left, right
-    global page, score, time
+    global page, score, time, second, minute
     global SPEED
     player_x_column = 5
     player_y_row = 5
@@ -285,6 +284,8 @@ def restart():
     page = 1
     score = 0
     time = 0
+    second = 0
+    minute = 0
     print ("You died", SPEED)
 
 

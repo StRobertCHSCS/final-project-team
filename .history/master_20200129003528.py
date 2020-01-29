@@ -1,6 +1,5 @@
 '''
 -**make snake longer when eaten
-    - fix stop watch so it restarts when you restart level
     - FIGURE OUT HOW TO KNOW WHERE TO ADD THE NEXT BLOCK (MOVE LAST LOCATION TO BACK)
     DONEEE
 -fix player_location lists, so that the list only has the location of the current snake location, not infinite list (done)
@@ -67,8 +66,8 @@ left = False
 right = False
 
 # Use snakes position shown on grid, not the python coordinates
-player_x_column = 25
-player_y_row = 20
+player_x_column = 5
+player_y_row = 5
 
 # Length of the snake body
 body = 1
@@ -90,21 +89,17 @@ grid_texture = arcade.load_texture("29x51_grid.jpg")
 
 
 score = 0
-
 # Landing page, game, death screen, or high score
 page = 0
 SPEED = 1
 
 high_score = 0
-
 time = 0
+millisecond = 0
 second = 0
 minute = 0
 
 
-red = 255
-green = 255
-blue = 0
 def on_update(delta_time):
 
 
@@ -128,17 +123,25 @@ def on_draw():
     print(time)
 def stop_watch():
     global time, second, minute, SPEED
-    global red, green, blue
+
     time += 1
-  
+
+    # if (time % SPEED == 0):
+    #     millisecond += 1
+    #     if millisecond > 100:
+    #         millisecond = 0
+    #         second += 1
+    #         minute+= 1
+
     if (time % SPEED == 0):
         second += 1
     elif second > 60:
         second = 0
         minute += 1
 
-
-
+    red = 255
+    green = 0
+    blue = 0
     if (red == 255 and 0 <= green < 255 and blue == 0):
         green += 5
     elif (0 < red <= 255 and green == 255 and blue == 0):
@@ -185,9 +188,10 @@ def main_game():
 
 
 def start_screen():
-    global alive_button, SPEED
+    global alive_button
     arcade.draw_text("Welcome to snake \n choose your level", (SCREEN_WIDTH//2), 3*(SCREEN_HEIGHT//4), 
                     arcade.color.WHITE, 25, font_name='calibri', anchor_x="center", anchor_y="center")
+
     # arcade.draw_text(str(current_time), (3 * SCREEN_WIDTH // 4), (SCREEN_HEIGHT//4), 
     #         arcade.color.BLACK, 25, font_name='calibri', anchor_x="center", anchor_y="center")    
 
@@ -203,8 +207,10 @@ def start_screen():
                          arcade.color.BLACK, 10, font_name='calibri', anchor_x="center", anchor_y="center")
 
 def death_screen():
-    global dead_button, death_button_text, red, green, blue
-
+    global dead_button, death_button_text#, red, green, blue
+    red = 255
+    green = 255
+    blue = 0
     
     if (red == 255 and 0 <= green < 255 and blue == 0):
         green += 5
@@ -272,7 +278,6 @@ def restart():
     global player_x_column, player_y_row, snake_len, body, snake_pos
     global up, down, left, right
     global page, score, time
-    global SPEED
     player_x_column = 5
     player_y_row = 5
     snake_len = []
@@ -285,7 +290,7 @@ def restart():
     page = 1
     score = 0
     time = 0
-    print ("You died", SPEED)
+    print ("You died")
 
 
 def snake():
@@ -314,6 +319,7 @@ def snake():
 def apple():
     global apple_x, apple_y, apple_x_coordinate, apple_y_coordinate, body, snake_len
     global score
+    global SPEED
 
 
     apple_x_coordinate = (MARGIN + WIDTH) * apple_x + MARGIN + WIDTH // 2  

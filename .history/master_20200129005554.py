@@ -1,6 +1,5 @@
 '''
 -**make snake longer when eaten
-    - fix stop watch so it restarts when you restart level
     - FIGURE OUT HOW TO KNOW WHERE TO ADD THE NEXT BLOCK (MOVE LAST LOCATION TO BACK)
     DONEEE
 -fix player_location lists, so that the list only has the location of the current snake location, not infinite list (done)
