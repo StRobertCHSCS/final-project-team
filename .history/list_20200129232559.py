@@ -40,9 +40,9 @@
 #     dead_button.append(death_options)
 #     text_num += 1
 #     print (dead_button)
-import random
 snake_color = []
 
-for i in range (2):
+for i in range 3:
     snake_color.append(random.randint(0, 255))
+    i += 1
 print (snake_color)
