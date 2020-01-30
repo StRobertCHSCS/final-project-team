@@ -96,7 +96,7 @@ score = 0
 dead_button = []
 death_button_text = ["Retry", "Quit"]
 for x in range (2):
-    dead_button.append([(2 * x + 1)*(SCREEN_WIDTH//4) - 75, (SCREEN_HEIGHT//4), 150, 150, death_button_text[(x)]])
+    dead_button.append([(2 * x + 1)*(SCREEN_WIDTH//4) - 75, (SCREEN_HEIGHT//4), 150, 150, death_button_text[(x -1)]])
 # High score
 high_score = 0
 

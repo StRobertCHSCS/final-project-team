@@ -9,64 +9,72 @@
 -fix speed so that it resets when you go back to main page
 - add high score page (txt file, saves high scores outside of program)
 '''
+
+
 import arcade
 import random
 import json
+import time
 
-# Set how many rows and columns we will have
-ROW_COUNT = 29
-COLUMN_COUNT = 51
 
-# WIDTH and HEIGHT of each cell, and the margin between each cell
-WIDTH = 20
-HEIGHT = 20
-MARGIN = 5
-
-# Determine screen dimensions
-SCREEN_WIDTH = (WIDTH + MARGIN) * COLUMN_COUNT + MARGIN
-SCREEN_HEIGHT = (HEIGHT + MARGIN) * ROW_COUNT + MARGIN
-
-# Landing page, game, death screen, or high score
-page = 0
-# Intial speed refreshes once every second, changes depending on users input
-SPEED = 1
 
 # Starting screen 
-# List to hold the information for the 5 buttons (x, y, length, height, buttton text)
 alive_button = []
-# Different text to be displayed
 start_button_text = ["Noob: 0.5 speed \n (Refresh rate 1/5 seconds)",
                     "Normal speed: 1 \n (Refresh rate 1/10 seconds)", 
                     "Hard: 1.5 speed \n (Refresh rate 1/15 seconds)", 
                     "Expert: 2.5 speed \n (Refresh rate 1/25 seconds)", 
                     "Infinite life (Impossible to die)"]
 
-# Create the buttons so they are equidistant
 for i in range (2, 10, 2):
-    alive_button.append([i*100, 200, 150, 50, start_button_text[(i // 2) - 1]])
+        start_options = [i*100, 200, 150, 50, start_button_text[(i // 2) - 1]]  # x, y, width, height
+        alive_button.append(start_options)
+alive_button.append([500, 100, 300, 50, start_button_text[4]])  # x, y, width, height
 
-# Infinite life 
-alive_button.append([SCREEN_WIDTH//2 - 150, 100, 300, 50, start_button_text[4]])
-
-# If easy mode is on, based on click from the infinite life button
-easy = False
+show_text = False
+    
 
 
-# Main game
+# Set how many rows and columns we will have
+ROW_COUNT = 29
+COLUMN_COUNT = 51
+
+# This sets the WIDTH and HEIGHT of each grid location
+WIDTH = 20
+HEIGHT = 20
+
+# This sets the margin between each cell
+# and on the edges of the screen.
+MARGIN = 5
+
+# Do the math to figure out our screen dimensions
+SCREEN_WIDTH = (WIDTH + MARGIN) * COLUMN_COUNT + MARGIN
+SCREEN_HEIGHT = (HEIGHT + MARGIN) * ROW_COUNT + MARGIN
+
+# Death screen buttons, same list format as the starting screen buttons
+dead_button = []
+death_button_text = ["Retry", "Quit"]
+text_num = 0
+for x in range (1, 5, 2):
+    death_options = [x*(SCREEN_WIDTH//4) - 75, 2*(SCREEN_HEIGHT//4) - 75 , 150, 150, death_button_text[text_num]]  # x, y, width, height
+    dead_button.append(death_options)
+    text_num += 1
+
 # Direction the snake is moving in
 up = False
 down = False
 left = False
 right = False
 
-# Snake color always changes when the game starts
 snake_color = []
+
 for i in range (3):
     snake_color.append(random.randint(0, 255))
+    
 
 # Use snakes position shown on grid, not the python coordinates
 player_x_column = 25
-player_y_row = 14 
+player_y_row = 20
 
 # Length of the snake body
 body = 1
@@ -74,6 +82,7 @@ body = 1
 # Current snake location
 snake_pos = []
 
+easy = False
 # Determine where the starting apple will be drawn in
 apple_x = random.randint(0, COLUMN_COUNT)
 apple_y = random.randint(0, ROW_COUNT)
@@ -84,21 +93,18 @@ apple_display = True
 # Background grid
 grid_texture = arcade.load_texture("29x51_grid.jpg")
 
-# Stop watch and score, shown on the same page as the main game
+score = 0
+
+# Landing page, game, death screen, or high score
+page = 0
+SPEED = 1
+high_score = 0
+new_high = False
+
+# Stop watch
 time = 0
 second = 0
 minute = 0
-score = 0
-
-
-# Death screen
-# Death screen buttons, same list format as the starting screen buttons
-dead_button = []
-death_button_text = ["Retry", "Quit"]
-for x in range (2):
-    dead_button.append([(2 * x + 1)*(SCREEN_WIDTH//4) - 75, (SCREEN_HEIGHT//4), 150, 150, death_button_text[(x)]])
-# High score
-high_score = 0
 
 # Changing gradient colour 
 red = 255
@@ -109,11 +115,10 @@ blue = 0
 def on_update(delta_time):
     snake_move()
 
-
 def on_draw():
     global page 
     arcade.start_render()
-    # See which functions to load depending on which page
+
     if page == 0:
         start_screen()
     elif page == 1:
@@ -121,6 +126,13 @@ def on_draw():
     elif page == 2:
         grid_background()
         death_screen()
+    elif page == 3:
+        high_score_page()
+    print(time, SPEED)
+
+def grid_background():
+    arcade.draw_texture_rectangle(SCREEN_WIDTH//2, SCREEN_HEIGHT//2, grid_texture.width, grid_texture.height, grid_texture, 0)
+
 
 def start_screen():
     global alive_button, SPEED
@@ -128,12 +140,8 @@ def start_screen():
 
     arcade.draw_text("Welcome to snake \n choose your level", (SCREEN_WIDTH//2), 3*(SCREEN_HEIGHT//4), 
                     arcade.color.WHITE, 25, font_name='calibri', anchor_x="center", anchor_y="center")
-    arcade.draw_text("Green = Infinite life on (Press Space to suicide) ", SCREEN_WIDTH//2, SCREEN_HEIGHT//4, 
+    arcade.draw_text("Green = Infinite life on (Press Space to suicide) ", (SCREEN_WIDTH//2), (SCREEN_HEIGHT//4), 
                     arcade.color.WHITE, 25, font_name='calibri', anchor_x="center", anchor_y="center")
-    arcade.draw_text("Movement keys: \n Up = W \n Down = S \n Left = A\n Right = D", 7 * (SCREEN_WIDTH//8), 3 * (SCREEN_HEIGHT//4), 
-                    arcade.color.WHITE, 38, font_name='calibri', anchor_x="center", anchor_y="center")
-    arcade.draw_text("If you want to suicide in game \n Press space bar", 7 * (SCREEN_WIDTH//8),  (SCREEN_HEIGHT//2), 
-                    arcade.color.YELLOW, 20, font_name='calibri', anchor_x="center", anchor_y="center")
     # Draw the buttons
     for i in range (0, 4):
         arcade.draw_xywh_rectangle_filled(alive_button[i][0],
@@ -161,11 +169,13 @@ def start_screen():
                     arcade.color.BLUE, 15, font_name='calibri', anchor_x="center", anchor_y="center")
     
 
+
+
+
 def snake_move():
     global player_x, player_y, player_x_column, player_y_row
     global snake_pos, easy
     global page, score
-
     # If infinite life on
     if easy == True:
         # Player movement
@@ -208,20 +218,41 @@ def snake_move():
             else:
                 page = 2
 
+
     # Player coordinates
     player_x = (MARGIN + WIDTH) * player_x_column + MARGIN + WIDTH // 2
     player_y = (MARGIN + HEIGHT) * player_y_row + MARGIN + HEIGHT // 2
 
 
 def main_game():
-    # Combine all the functions into one, easier to read
     grid_background()
     snake()
     apple()
     stop_watch()
 
-def grid_background():
-    arcade.draw_texture_rectangle(SCREEN_WIDTH//2, SCREEN_HEIGHT//2, grid_texture.width, grid_texture.height, grid_texture, 0)
+
+def stop_watch():
+    global time, second, minute, SPEED
+    global red, green, blue
+
+    # Time counter in minutes and seconds
+    time += (60//SPEED)
+
+    if (time % 60 == 0):
+        second += 1
+    elif second == 60:
+        second = 0
+        minute += 1
+
+    # Flash between blue and red for stop watch text
+    if second % 2 == 0:
+        color = (200, 0, 0)
+    else:
+        color = (0, 50, 255)
+    
+    
+    arcade.draw_text(f"Time played this session: {minute:02d}:{second:02d}", 25, SCREEN_HEIGHT - 50, color,
+                    25, font_name='calibri', bold = True)
 
 
 def snake():
@@ -290,45 +321,22 @@ def apple():
     arcade.draw_text("Score is " + str(score), SCREEN_WIDTH - 75, SCREEN_HEIGHT - 50, arcade.color.GREEN,
                     25, font_name='calibri', bold = True, anchor_x="center", anchor_y="center")
 
-
-def stop_watch():
-    global time, second, minute, SPEED
-    global red, green, blue
-
-    # Time counter in minutes and seconds
-    time += (60//SPEED)
-
-    if (time % 60 == 0):
-        second += 1
-    elif second == 60:
-        second = 0
-        minute += 1
-
-    # Flash between blue and red for stop watch text
-    if second % 2 == 0:
-        color = (200, 0, 0)
-    else:
-        color = (0, 50, 255)
-    
-    arcade.draw_text(f"Time played this session: {minute:02d}:{second:02d}", 25, SCREEN_HEIGHT - 50, color,
-                    25, font_name='calibri', bold = True)
-
-
 def death_screen():
     global dead_button, death_button_text, red, green, blue    
     global high_score, score, new_high
-
     # Read json file and see if our score is higher than the one stored, if so then update with our score
     with open("high_score.json", "r") as high_score_file:
         high_score = json.load(high_score_file)
     with open("high_score.json", "w") as high_score_file:
         if score > high_score:
+            arcade.draw_text("New high score!!", SCREEN_WIDTH//2, 200, arcade.color.BLACK, 50, font_name='calibri')
             json.dump(score, high_score_file)
         else:
             json.dump(high_score, high_score_file)
+
+    # if score > high_score:
     arcade.draw_text("The high score is " + str(high_score) + "\n  Your score is " + str(score), SCREEN_WIDTH//2, 2*(dead_button[0][1]),
                     (red, green, blue), 50, font_name='calibri', bold=True, anchor_x="center", anchor_y="center")
-
     # Gradient colour changing for the buttons
     if (red == 255 and 0 <= green < 255 and blue == 0):
         green += 5
@@ -348,6 +356,8 @@ def death_screen():
         arcade.draw_text("You died rip lol", random.randint(50, SCREEN_WIDTH), random.randint(50, SCREEN_HEIGHT), (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)),
                         50, font_name='calibri', bold = True, anchor_x="center", anchor_y="center")
 
+    
+
     # Draw the 2 option buttons
     for i in range (0, 2):
         arcade.draw_xywh_rectangle_filled(dead_button[i][0],
@@ -364,8 +374,8 @@ def restart():
     global player_x_column, player_y_row, snake_len, body, snake_pos
     global up, down, left, right
     global page, score
-    player_x_column = 25
-    player_y_row = 14
+    player_x_column = 50
+    player_y_row = 25
     snake_len = []
     body = 1
     snake_pos = []
@@ -376,6 +386,7 @@ def restart():
     page = 1
     score = 0
 
+    print ("You died", SPEED)
 
 def on_key_press(key, modifiers):
     global up, down, left, right

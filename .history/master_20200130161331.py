@@ -96,7 +96,7 @@ score = 0
 dead_button = []
 death_button_text = ["Retry", "Quit"]
 for x in range (2):
-    dead_button.append([(2 * x + 1)*(SCREEN_WIDTH//4) - 75, (SCREEN_HEIGHT//4), 150, 150, death_button_text[(x)]])
+    dead_button.append([(2 * x + 1)*(SCREEN_WIDTH//4) - 75, (SCREEN_HEIGHT//4), 150, 150, death_button_text[(x -1)]])
 # High score
 high_score = 0
 
@@ -128,12 +128,10 @@ def start_screen():
 
     arcade.draw_text("Welcome to snake \n choose your level", (SCREEN_WIDTH//2), 3*(SCREEN_HEIGHT//4), 
                     arcade.color.WHITE, 25, font_name='calibri', anchor_x="center", anchor_y="center")
-    arcade.draw_text("Green = Infinite life on (Press Space to suicide) ", SCREEN_WIDTH//2, SCREEN_HEIGHT//4, 
+    arcade.draw_text("If you want to suicide in game \n Press space bar", (SCREEN_WIDTH//4), 3*(SCREEN_HEIGHT//4), 
                     arcade.color.WHITE, 25, font_name='calibri', anchor_x="center", anchor_y="center")
-    arcade.draw_text("Movement keys: \n Up = W \n Down = S \n Left = A\n Right = D", 7 * (SCREEN_WIDTH//8), 3 * (SCREEN_HEIGHT//4), 
-                    arcade.color.WHITE, 38, font_name='calibri', anchor_x="center", anchor_y="center")
-    arcade.draw_text("If you want to suicide in game \n Press space bar", 7 * (SCREEN_WIDTH//8),  (SCREEN_HEIGHT//2), 
-                    arcade.color.YELLOW, 20, font_name='calibri', anchor_x="center", anchor_y="center")
+    arcade.draw_text("Green = Infinite life on (Press Space to suicide) ", alive_button[4][0], alive_button[1] + alive_button[4][3], 
+                    arcade.color.WHITE, 25, font_name='calibri', anchor_x="center", anchor_y="center")
     # Draw the buttons
     for i in range (0, 4):
         arcade.draw_xywh_rectangle_filled(alive_button[i][0],

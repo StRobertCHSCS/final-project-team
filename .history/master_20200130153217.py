@@ -12,6 +12,7 @@
 import arcade
 import random
 import json
+import time
 
 # Set how many rows and columns we will have
 ROW_COUNT = 29
@@ -43,10 +44,11 @@ start_button_text = ["Noob: 0.5 speed \n (Refresh rate 1/5 seconds)",
 
 # Create the buttons so they are equidistant
 for i in range (2, 10, 2):
-    alive_button.append([i*100, 200, 150, 50, start_button_text[(i // 2) - 1]])
+        start_options = [i*100, 200, 150, 50, start_button_text[(i // 2) - 1]]
+        alive_button.append(start_options)
 
 # Infinite life 
-alive_button.append([SCREEN_WIDTH//2 - 150, 100, 300, 50, start_button_text[4]])
+alive_button.append([500, 100, 300, 50, start_button_text[4]])
 
 # If easy mode is on, based on click from the infinite life button
 easy = False
@@ -96,7 +98,8 @@ score = 0
 dead_button = []
 death_button_text = ["Retry", "Quit"]
 for x in range (2):
-    dead_button.append([(2 * x + 1)*(SCREEN_WIDTH//4) - 75, (SCREEN_HEIGHT//4), 150, 150, death_button_text[(x)]])
+    death_option =  [(2 * x + 1)*(SCREEN_WIDTH//4) - 75, 2*(SCREEN_HEIGHT//4) - 75 , 150, 150, death_button_text[x -1]] 
+    dead_button.append = death_option
 # High score
 high_score = 0
 
@@ -128,12 +131,10 @@ def start_screen():
 
     arcade.draw_text("Welcome to snake \n choose your level", (SCREEN_WIDTH//2), 3*(SCREEN_HEIGHT//4), 
                     arcade.color.WHITE, 25, font_name='calibri', anchor_x="center", anchor_y="center")
-    arcade.draw_text("Green = Infinite life on (Press Space to suicide) ", SCREEN_WIDTH//2, SCREEN_HEIGHT//4, 
+    arcade.draw_text("If you want to suicide in game, press space bar", (SCREEN_WIDTH//4), 3*(SCREEN_HEIGHT//4), 
                     arcade.color.WHITE, 25, font_name='calibri', anchor_x="center", anchor_y="center")
-    arcade.draw_text("Movement keys: \n Up = W \n Down = S \n Left = A\n Right = D", 7 * (SCREEN_WIDTH//8), 3 * (SCREEN_HEIGHT//4), 
-                    arcade.color.WHITE, 38, font_name='calibri', anchor_x="center", anchor_y="center")
-    arcade.draw_text("If you want to suicide in game \n Press space bar", 7 * (SCREEN_WIDTH//8),  (SCREEN_HEIGHT//2), 
-                    arcade.color.YELLOW, 20, font_name='calibri', anchor_x="center", anchor_y="center")
+    arcade.draw_text("Green = Infinite life on (Press Space to suicide) ", (SCREEN_WIDTH//2), (SCREEN_HEIGHT//4), 
+                    arcade.color.WHITE, 25, font_name='calibri', anchor_x="center", anchor_y="center")
     # Draw the buttons
     for i in range (0, 4):
         arcade.draw_xywh_rectangle_filled(alive_button[i][0],
@@ -310,6 +311,7 @@ def stop_watch():
     else:
         color = (0, 50, 255)
     
+    
     arcade.draw_text(f"Time played this session: {minute:02d}:{second:02d}", 25, SCREEN_HEIGHT - 50, color,
                     25, font_name='calibri', bold = True)
 
@@ -364,8 +366,8 @@ def restart():
     global player_x_column, player_y_row, snake_len, body, snake_pos
     global up, down, left, right
     global page, score
-    player_x_column = 25
-    player_y_row = 14
+    player_x_column = 50
+    player_y_row = 25
     snake_len = []
     body = 1
     snake_pos = []
